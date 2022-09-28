@@ -15,18 +15,17 @@ import java.util.Date;
 public class GUIWork implements ActionListener
 {
     private static JLabel userLabel;
+    //private static JLabel ownerLabel;
     private static JTextField userText;
+    private static JTextField ownerText;
     private static JLabel passwordLabel;
     private static JPasswordField passwordText;
     private static JButton button;
     private static JLabel success;
     private static JLabel title;
-    long time=System.currentTimeMillis();
 
     public static void main(String[] args)
     {
-
-
         JFrame frame = new JFrame();
         frame.setSize(300,300);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -35,35 +34,39 @@ public class GUIWork implements ActionListener
         JPanel panel = new JPanel();
         frame.add(panel);
 
-        title = new JLabel("Owner");
-        panel.add(title);
-
 
         panel.setLayout(null);
         userLabel = new JLabel("User");
         userLabel.setBounds(10, 20, 80, 25);
         panel.add(userLabel);
 
+        ownerText = new JTextField();
+        ownerText.setBounds(100,50,165,25);
+        panel.add(ownerText);
+
+        JLabel ownerLabel = new JLabel("Owner");
+        ownerLabel.setBounds(10,50,80,25);
+        panel.add(ownerLabel);
 
         userText = new JTextField();
         userText.setBounds(100,20,165,25);
         panel.add(userText);
 
         JLabel passwordLabel = new JLabel("Password");
-        passwordLabel.setBounds(10,50,80,25);
+        passwordLabel.setBounds(10,80,80,25);
         panel.add(passwordLabel);
 
         passwordText = new JPasswordField();
-        passwordText.setBounds(100, 50, 165, 25);
+        passwordText.setBounds(100, 80, 165, 25);
         panel.add(passwordText);
 
         JButton button = new JButton("Login");
-        button.setBounds(10,90,70,25);
+        button.setBounds(10,120,70,25);
         button.addActionListener(new GUIWork());
         panel.add(button);
 
         success = new JLabel("");
-        success.setBounds(10,110,300,25);
+        success.setBounds(10,150,300,25);
         panel.add(success);
 
         frame.setVisible(true);
@@ -77,18 +80,24 @@ public class GUIWork implements ActionListener
         LocalDateTime now = LocalDateTime.now();
         String DateTimer = (dtf.format(now));
 
-        String user = userText.getText();
-        String password = passwordText.getText();
-        System.out.println(user + ", " + password);
+        String owner = ownerText.getText();
 
-        if(user.equalsIgnoreCase("Jonathan") && password.equals("Test"))
+        String user = userText.getText();
+        String userPassword = passwordText.getText();
+        System.out.println(user + ", " + userPassword);
+
+        if(user.equalsIgnoreCase("Jonathan") && userPassword.equals("Test") && (owner.length() == 0))
         {
             success.setText("Login successful at " + DateTimer);
-            title.setText("Owner");
+        }
+        else if(user.length() != 0 && owner.length() != 0)
+        {
+            success.setText("You are attempting to log in on multiple accounts.");
         }
         else
         {
             success.setText("Wrong username or password, please try again.");
         }
+
     }
 }
