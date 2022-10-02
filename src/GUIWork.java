@@ -416,7 +416,4 @@ public class GUIWork implements ActionListener
             success.setText("Wrong username or password, please try again.");
         }
     }
-
-
-
 }
