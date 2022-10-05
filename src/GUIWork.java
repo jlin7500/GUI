@@ -1,5 +1,7 @@
 import java.io.*;
 import javax.swing.*;
+import java.awt.Color;
+import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.text.SimpleDateFormat;
@@ -27,8 +29,9 @@ public class GUIWork implements ActionListener
     private static JButton ownerInfoButton;
     private static JButton ownerBack;
     private static JButton userBack;
+    private static JLabel message;
 
-    //Client
+    // Client
     private static JLabel Fillout;
     private static JLabel ClientID;
     private static JTextField ID;
@@ -40,7 +43,7 @@ public class GUIWork implements ActionListener
     private static JLabel Received;
     private static JTextField ClientName;
 
-    //Owner
+    // Owner
     private static JLabel welcomeMessage;
     private static JLabel ownerName;
     private static JTextField name;
@@ -58,8 +61,6 @@ public class GUIWork implements ActionListener
     private static JLabel residencyTime;
     private static JTextField Time;
     private static JButton submit;
-    long time = System.currentTimeMillis();
-
 
     public static void main(String[] args)
     {
@@ -67,100 +68,107 @@ public class GUIWork implements ActionListener
         LocalDateTime now = LocalDateTime.now();
         String DateTimer = (dtf.format(now));
 
-        JFrame userFrame = new JFrame("Welcome Client !");//client title section
-        userFrame.setSize(600,600);
+        JFrame userFrame = new JFrame("Welcome Client !");// client title section
+        userFrame.setSize(500, 500);
         userFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         userFrame.setVisible(false);
 
-        JFrame ownerFrame = new JFrame("Welcome Owner !");//owner title section
-        ownerFrame.setSize(600,600);
+        JFrame ownerFrame = new JFrame("Welcome Owner !");// owner title section
+        ownerFrame.setSize(500, 500);
         ownerFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        userFrame.setVisible(false);
+        ownerFrame.setVisible(false);
 
         JFrame frame = new JFrame("Vehicular GUI");// Home GUI title
-        frame.setSize(600, 600);
+        frame.setSize(500, 500);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setVisible(true);
 
         JPanel panel = new JPanel();
+        panel.setBackground(Color.LIGHT_GRAY);
+        panel.setSize(500,500);
         frame.add(panel);
 
         JPanel userPanel = new JPanel();
         userFrame.add(userPanel);
-
+        userPanel.setBackground(Color.LIGHT_GRAY);
         JPanel ownerPanel = new JPanel();
-        ownerFrame.add(ownerPanel);
 
+        ownerFrame.add(ownerPanel);
+        ownerPanel.setBackground(Color.LIGHT_GRAY);
         ownerPanel.setLayout(null);
-        //Welcome message
-        welcomeMessage = new JLabel ("Please fill out the following information");
+        // Welcome message
+        welcomeMessage = new JLabel("Please fill out the following information");
         welcomeMessage.setBounds(10, 5, 300, 25);
         ownerPanel.add(welcomeMessage);
-        //Owner name
+        // Owner name
         ownerName = new JLabel("Owner Name");
-        ownerName.setBounds(10,40,80,25);
+        ownerName.setBounds(10, 40, 80, 25);
         ownerPanel.add(ownerName);
 
         name = new JTextField();
-        name.setBounds(100,40,165,25);
+        name.setBounds(100, 40, 165, 25);
         ownerPanel.add(name);
-        //Owner ID
+        // Owner ID
         ownerID = new JLabel("Owner ID");
-        ownerID.setBounds(10,75,80,25);
+        ownerID.setBounds(10, 75, 80, 25);
         ownerPanel.add(ownerID);
 
         id = new JTextField();
-        id.setBounds(100,75,165,25);
+        id.setBounds(100, 75, 165, 25);
         ownerPanel.add(id);
-        //Vehicle Information
+        // Vehicle Information
         vehicleInfo = new JLabel("Vehicle Information:");
-        vehicleInfo.setBounds(10,110,150,25);
+        vehicleInfo.setBounds(10, 110, 150, 25);
         ownerPanel.add(vehicleInfo);
-        //Make
+        // Make
         carMake = new JLabel("Make of Car");
-        carMake.setBounds(10,145,80,25);
+        carMake.setBounds(10, 145, 80, 25);
         ownerPanel.add(carMake);
 
         make = new JTextField();
-        make.setBounds(100,145,165,25);
+        make.setBounds(100, 145, 165, 25);
         ownerPanel.add(make);
-        //Model
+        // Model
         carModel = new JLabel("Model of car");
-        carModel.setBounds(10,180,80,25);
+        carModel.setBounds(10, 180, 80, 25);
         ownerPanel.add(carModel);
 
         model = new JTextField();
-        model.setBounds(100,180,165,25);
+        model.setBounds(100, 180, 165, 25);
         ownerPanel.add(model);
-        //Year
+        // Year
         carYear = new JLabel("Year made");
-        carYear.setBounds(10,215,80,25);
+        carYear.setBounds(10, 215, 80, 25);
         ownerPanel.add(carYear);
 
         year = new JTextField();
-        year.setBounds(100,215,165,25);
+        year.setBounds(100, 215, 165, 25);
         ownerPanel.add(year);
-        //Location
+        // Location
         carLocation = new JLabel("Location of Manufacture");
-        carLocation.setBounds(10,250,200,25);
+        carLocation.setBounds(10, 250, 200, 25);
         ownerPanel.add(carLocation);
 
         location = new JTextField();
-        location.setBounds(200,250,165,25);
+        location.setBounds(200, 250, 165, 25);
         ownerPanel.add(location);
-        //Residency Time
+        // Residency Time
         residencyTime = new JLabel("Residency Time of Vehicle");
-        residencyTime.setBounds(10,285,200,25);
+        residencyTime.setBounds(10, 285, 200, 25);
         ownerPanel.add(residencyTime);
 
         Time = new JTextField();
-        Time.setBounds(200,285,165,25);
+        Time.setBounds(200, 285, 165, 25);
         ownerPanel.add(Time);
 
-        //Sucess message
+        // Sucess message
         ownerSuccess = new JLabel("");
-        ownerSuccess.setBounds(250,270,250,250);
+        ownerSuccess.setBounds(250, 270, 250, 250);
         ownerPanel.add(ownerSuccess);
+
+        message = new JLabel("Please select what you are registering for.");
+        message.setBounds(140, 150, 300, 25);
+        panel.add(message);
 
         userBack = new JButton(new AbstractAction("Back")
         {
@@ -172,7 +180,7 @@ public class GUIWork implements ActionListener
             }
         });
 
-        userBack.setBounds(30,200,80,25); // was set to 100
+        userBack.setBounds(30, 200, 80, 25); // was set to 100
         userPanel.add(userBack);
 
         ownerBack = new JButton(new AbstractAction("Back")
@@ -186,11 +194,11 @@ public class GUIWork implements ActionListener
             }
         });
 
-        ownerBack.setBounds(30,350,80,25);
+        ownerBack.setBounds(30, 350, 80, 25);
         ownerPanel.add(ownerBack);
 
-        //Welcome info
-        Fillout = new JLabel ("Please fill out the following information");
+        // Welcome info
+        Fillout = new JLabel("Please fill out the following information");
         Fillout.setBounds(10, 5, 300, 25);
         userPanel.add(Fillout);
 
@@ -200,7 +208,7 @@ public class GUIWork implements ActionListener
         userPanel.add(userLabel);
 
         ClientName = new JTextField();
-        ClientName.setBounds(100,40,165,25);
+        ClientName.setBounds(100, 40, 165, 25);
         userPanel.add(ClientName);
 
         // Adding Client ID
@@ -208,34 +216,35 @@ public class GUIWork implements ActionListener
         ClientID.setBounds(10, 80, 80, 25);
         userPanel.add(ClientID);
 
-        //Adding Client ID Text field
+        // Adding Client ID Text field
         ID = new JTextField();
         ID.setBounds(100, 80, 165, 25);
         userPanel.add(ID);
 
-        //Adding Approximate Job Duration
+        // Adding Approximate Job Duration
         JobDuration = new JLabel("Job Duration");
         JobDuration.setBounds(10, 120, 100, 25);
         userPanel.add(JobDuration);
 
-        //Adding Job Duration
+        // Adding Job Duration
         Hours = new JTextField();
         Hours.setBounds(100, 120, 80, 25);
         userPanel.add(Hours);
 
-        //Adding Job Deadline
+        // Adding Job Deadline
         Deadline = new JLabel("Job Deadline");
         Deadline.setBounds(10, 160, 80, 25);
         userPanel.add(Deadline);
 
-        //Adding Date text field
+        // Adding Date text field
         Date = new JTextField();
         Date.setBounds(100, 160, 165, 25);
         userPanel.add(Date);
 
         success = new JLabel("");
-        success.setBounds(200,110,250,250);
+        success.setBounds(200, 110, 250, 250);
         userPanel.add(success);
+
 
         userInfoButton = new JButton(new AbstractAction("Submit")
         {
@@ -247,32 +256,34 @@ public class GUIWork implements ActionListener
                 String time = Hours.getText();
                 String dueDate = Date.getText();
                 String name = ClientName.getText();
-                if(client.length() > 0 && time.length() > 0 && dueDate.length() > 0 && name.length() > 0)
+                if (client.length() > 0 && time.length() > 0 && dueDate.length() > 0 && name.length() > 0)
                 {
                     success.setText("Login successful at " + DateTimer);
-                    try
-                    {
+                    try {
                         BufferedWriter test;
-                        System.out.println("Buffered Writer start writing");
-                        test = new BufferedWriter(new FileWriter("ClientInfo.txt",true));
-                        test.append(name);
-                        test.append(", ");
-                        test.append(client);
-                        test.append(", ");
-                        test.append(time + " ");
-                        test.append(" " + DateTimer  + "\n");
+                        System.out.println("Start writing");
+                        test = new BufferedWriter(new FileWriter("ClientInfo.txt", true));
+                        test.append("\n");
+                        test.append("Name: " + name + "\n");
+                        test.append("Client ID: " + client + "\n");
+                        test.append("Job Duration: " + time + "\n");
+                        test.append("Job Deadline: " + dueDate + "\n");
+                        test.append("Registration time: " + DateTimer + "\n");
                         test.close();
                         System.out.println("Written successfully");
-                    }
-                    catch (IOException ex)
+                    } catch (IOException ex)
                     {
                         ex.printStackTrace();
                     }
                 }
+                else
+                {
+                    success.setText("Please fill out all fields.");
+                }
             }
         });
 
-        userInfoButton.setBounds(250,200,80,25);
+        userInfoButton.setBounds(250, 200, 80, 25);
         userPanel.add(userInfoButton);
 
         ownerInfoButton = new JButton(new AbstractAction("Submit")
@@ -287,39 +298,38 @@ public class GUIWork implements ActionListener
                 String carYear = year.getText();
                 String carLocation = location.getText();
                 String residencyTime = Time.getText();
-                if(ownerName.length() > 0 && ownerID.length() > 0 && carMake.length() > 0 && carModel.length() > 0 && carYear.length() > 0 && carLocation.length() > 0 && residencyTime.length() > 0)
+                if (ownerName.length() > 0 && ownerID.length() > 0 && carMake.length() > 0 && carModel.length() > 0
+                        && carYear.length() > 0 && carLocation.length() > 0 && residencyTime.length() > 0)
                 {
                     ownerSuccess.setText("Login successful at " + DateTimer);
                     try
                     {
                         BufferedWriter test;
                         System.out.println("Buffered Writer start writing");
-                        test = new BufferedWriter(new FileWriter("OwnerInfo.txt",true));
-                        test.append(ownerName);
-                        test.append(", ");
-                        test.append(ownerID);
-                        test.append(", ");
-                        test.append(carMake);
-                        test.append(", ");
-                        test.append(carModel);
-                        test.append(", ");
-                        test.append(carYear);
-                        test.append(", ");
-                        test.append(carLocation);
-                        test.append(", ");
-                        test.append(residencyTime + " ");
-                        test.append(" " + DateTimer  + "\n");
+                        test = new BufferedWriter(new FileWriter("OwnerInfo.txt", true));
+                        test.append("\n");
+                        test.append("Owner name: " + ownerName + "\n");
+                        test.append("Owner ID: " + ownerID + "\n");
+                        test.append("Car Make: " + carMake + "\n");
+                        test.append("Car Model: " + carModel + "\n");
+                        test.append("Car Year: " + carYear + "\n");
+                        test.append("Manufactured Location: " + carLocation + "\n");
+                        test.append("Residency Time: " + residencyTime + "\n");
+                        test.append("Registered Successfully: " + DateTimer + "\n");
                         test.close();
                         System.out.println("Written successfully");
-                    }
-                    catch (IOException ex)
+                    } catch (IOException ex)
                     {
                         ex.printStackTrace();
                     }
                 }
+                else
+                {
+                    ownerSuccess.setText("Please fill out all the fields.");
+                }
             }
         });
-        ownerInfoButton.setBounds(250,350,80,25);
+        ownerInfoButton.setBounds(250, 350, 80, 25);
         ownerPanel.add(ownerInfoButton);
         userButton = new JButton(new AbstractAction("Client")
         {
@@ -331,11 +341,9 @@ public class GUIWork implements ActionListener
 
             }
         });
-
-        userButton.setBounds(10,80,80,25);
+        panel.setLayout(null);
+        userButton.setBounds(150, 200, 80, 25);
         panel.add(userButton);
-
-
 
         ownerButton = new JButton(new AbstractAction("Owner")
         {
@@ -347,73 +355,15 @@ public class GUIWork implements ActionListener
             }
         });
 
-        ownerButton.setBounds(100,80,80,25);
+        ownerButton.setBounds(250, 200, 80, 25);
         panel.add(ownerButton);
-
-
 
         frame.setVisible(true);
     }
 
-
     @Override
     public void actionPerformed(ActionEvent e)
     {
-        String newUser = userText.getText();
-        String newPassword = passwordText.getText();
 
-        DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm:ss");
-        LocalDateTime now = LocalDateTime.now();
-        String DateTimer = (dtf.format(now));
-
-        String user = userText.getText();
-        String password = passwordText.getText();
-
-        /*
-        if (user.equalsIgnoreCase("Jonathan") && password.equals("Testt"))
-        {
-            success.setText("Login successful at " + DateTimer);
-            title.setText("Owner");
-            //writeToFile("newFileY", newUser, newPassword);
-            try
-            {
-                tester = new FileWriter("TEST.txt");
-                BufferedWriter test = new BufferedWriter(tester);
-                System.out.println("Buffered Writer start writing :)");
-                test.write(user);
-                test.write(",");
-                test.write(password);
-                test.close();
-                System.out.println("Written successfully");
-            } catch (IOException ex)
-            {
-                ex.printStackTrace();
-            }
-            */
-
-        if(user.length() > 0 && password.length() > 0)
-        {
-            success.setText("Login successful at " + DateTimer);
-            try
-            {
-                BufferedWriter test;
-                System.out.println("Buffered Writer start writing :)");
-                test = new BufferedWriter(new FileWriter("UserInfo.txt",true));
-                test.append(user);
-                test.append(",");
-                test.append(password);
-                test.append(DateTimer  + "\n");
-                test.close();
-                System.out.println("Written successfully");
-            }
-            catch (IOException ex)
-            {
-                ex.printStackTrace();
-            }
-        }
-        else
-        {
-            success.setText("Wrong username or password, please try again.");
-        }
     }
 }
