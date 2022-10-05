@@ -161,7 +161,7 @@ public class GUIWork implements ActionListener {
 
         // Sucess message
         ownerSuccess = new JLabel("");
-        ownerSuccess.setBounds(250, 270, 250, 250);
+        ownerSuccess.setBounds(250, 270, 350, 250);
         ownerPanel.add(ownerSuccess);
 
         message = new JLabel("Please select what you are registering for.");
@@ -236,7 +236,7 @@ public class GUIWork implements ActionListener {
         userPanel.add(Date);
 
         success = new JLabel("");
-        success.setBounds(200, 110, 250, 250);
+        success.setBounds(200, 110, 350, 250);
         userPanel.add(success);
 
         userInfoButton = new JButton(new AbstractAction("Submit") {
