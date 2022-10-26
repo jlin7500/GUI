@@ -15,8 +15,10 @@ import java.util.Scanner;
 
 public class GUIWork implements ActionListener 
 {
+    static int totalDuration = 0;
     static int integerData = 0;
     static int completionTime;
+    static ArrayList<Integer> jobDurationList = new ArrayList<Integer>();
     private static JLabel userLabel;
     private static JLabel ownerLabel;
     private static JTextField userText;
@@ -498,7 +500,7 @@ public class GUIWork implements ActionListener
             @Override
             public void actionPerformed(ActionEvent e)
             {
-                File file = new File("C:\\Users\\Jonat\\IdeaProjects\\GUIWork\\ClientInfo.txt");
+                File file = new File("C:\\Users\\Jonat\\Downloads\\GUI-branchTest\\ClientInfo.txt");
                 String data;
                 try
                 {
@@ -509,19 +511,20 @@ public class GUIWork implements ActionListener
                     data = sc.nextLine();
                     if(data.indexOf("Duration") > 0)
                     {
-                    
-                    System.out.println(data);
-
-                    System.out.println(data.substring(14, data.length()));
-
+                
                     integerData = Integer.valueOf(data.substring(14, data.length()));
-                      
+                    jobDurationList.add(integerData);
                     completionTime += integerData;
 
                     }
                   }
                   sc.close();
-                  System.out.println(completionTime);
+                  System.out.print("Job Duration: ");
+                  for(int i = 0; i < jobDurationList.size(); i++)
+                  {
+                    totalDuration += jobDurationList.get(i);
+                    System.out.print(totalDuration + ", ");
+                  }
                 }
                 catch (FileNotFoundException x)
                 {
@@ -544,12 +547,14 @@ public class GUIWork implements ActionListener
         });
 
         panel.setLayout(null);
-        adminButton.setBounds(177,240,125,25);
+        adminButton.setBounds(150,240,175,25);
         panel.add(adminButton);
 
-        userButton = new JButton(new AbstractAction("Client") {
+        userButton = new JButton(new AbstractAction("Client")
+         {
             @Override
-            public void actionPerformed(ActionEvent e) {
+            public void actionPerformed(ActionEvent e) 
+            {
                 frame.dispose();
                 userFrame.setVisible(true);
 
