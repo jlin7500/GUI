@@ -1,4 +1,5 @@
 import java.io.*;
+import java.lang.reflect.Array;
 import java.sql.ClientInfoStatus;
 
 import javax.swing.*;
@@ -15,10 +16,17 @@ import java.util.Scanner;
 
 public class GUIWork implements ActionListener 
 {
+    static int previousID = 0;
     static int totalDuration = 0;
     static int integerData = 0;
+    static int idValueCount;
     static int completionTime;
+    static String idValue;
+    static int max = 9999;
+    static int min = 1000;
+    static int range = max - min + 1;
     static ArrayList<Integer> jobDurationList = new ArrayList<Integer>();
+    static ArrayList<Integer> idList = new ArrayList<Integer>();
     private static JLabel userLabel;
     private static JLabel ownerLabel;
     private static JTextField userText;
@@ -369,18 +377,17 @@ public class GUIWork implements ActionListener
                 {
                     adminSuccess.setText("Username or password wrong.");
                 }
-
                 adminUsername.setText("");
 
                 adminPassword.setText("");
-
-
             }
         });
 
         adminPanel.setLayout(null);
         adminInfoButton.setBounds(250,250,80,25);
         adminPanel.add(adminInfoButton);
+
+       
 
         userInfoButton = new JButton(new AbstractAction("Submit") 
         {
@@ -389,6 +396,7 @@ public class GUIWork implements ActionListener
             public void actionPerformed(ActionEvent e) 
             {
                 String client = ID.getText();
+                
                 String time = Hours.getText();
                 String dueDate = Date.getText();
                 String name = ClientName.getText();
@@ -396,11 +404,12 @@ public class GUIWork implements ActionListener
                 DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm:ss");
                 LocalDateTime now = LocalDateTime.now();
                 String DateTimer = (dtf.format(now));
-
+                
+               
                 if (client.length() > 0 && time.length() > 0 && dueDate.length() > 0 && name.length() > 0)
                 {
 
-                    success.setText("Login successful at " + DateTimer);
+                    success.setText("Registered successful at " + DateTimer);
 
                     try
                     {
@@ -409,7 +418,25 @@ public class GUIWork implements ActionListener
                         test = new BufferedWriter(new FileWriter("ClientInfo.txt", true));
                         test.append("\n");
                         test.append("Name: " + name + "\n");
-                        test.append("Client ID: " + client + "\n");
+                        //test.append("Client ID: " + client + "\n");
+
+                        idValueCount = (int)(Math.random() * range) + min;
+                        idList.add(idValueCount);
+                        idValueCount = (int)(Math.random() * range) + min;
+                        if(idList.contains(idValueCount))
+                        {
+                            previousID = idValueCount;
+                        
+                            idValueCount = (int)(Math.random() * range) + min;
+                            if(previousID != idValueCount)
+                            {
+                            test.append("Client ID: " + idValueCount + "\n");
+                            }
+                        }
+                        else
+                        {
+                            test.append("Client ID: " + idValueCount + "\n");
+                        }
                         test.append("Job Duration: " + time + "\n");
                         test.append("Job Deadline: " + dueDate + "\n");
                         test.append("Registration time: " + DateTimer + "\n");
@@ -437,9 +464,11 @@ public class GUIWork implements ActionListener
         userInfoButton.setBounds(250, 200, 80, 25);
         userPanel.add(userInfoButton);
 
-        ownerInfoButton = new JButton(new AbstractAction("Submit") {
+        ownerInfoButton = new JButton(new AbstractAction("Submit") 
+        {
             @Override
-            public void actionPerformed(ActionEvent e) {
+            public void actionPerformed(ActionEvent e) 
+            {
                 String ownerName = name.getText();
                 String ownerID = id.getText();
                 String carMake = make.getText();
@@ -472,7 +501,8 @@ public class GUIWork implements ActionListener
                         test.append("Registered Successfully: "  + DateTimer1 +  "\n");
                         test.close();
                         System.out.println("Written successfully");
-                    } catch (IOException ex)
+                    } 
+                    catch (IOException ex)
                     {
                         ex.printStackTrace();
                     }
@@ -485,10 +515,10 @@ public class GUIWork implements ActionListener
                     location.setText("");
                     Time.setText("");
                 }
-                        else
-                        {
-                            ownerSuccess.setText("Please fill out all the fields.");
-                        }
+                    else
+                    {
+                        ownerSuccess.setText("Please fill out all the fields.");
+                    }
             }
         });
         ownerInfoButton.setBounds(250, 350, 80, 25);
@@ -500,7 +530,7 @@ public class GUIWork implements ActionListener
             @Override
             public void actionPerformed(ActionEvent e)
             {
-                File file = new File("C:\\Users\\Jonat\\Downloads\\GUI-branchTest\\ClientInfo.txt");
+                File file = new File("C:\\Users\\Jonat\\Downloads\\GUI-branchTest_2\\GUI-branchTest\\ClientInfo.txt");
                 String data;
                 try
                 {
@@ -511,7 +541,7 @@ public class GUIWork implements ActionListener
                     data = sc.nextLine();
                     if(data.indexOf("Duration") > 0)
                     {
-                
+
                     integerData = Integer.valueOf(data.substring(14, data.length()));
                     jobDurationList.add(integerData);
                     completionTime += integerData;
@@ -519,16 +549,35 @@ public class GUIWork implements ActionListener
                     }
                   }
                   sc.close();
-                  System.out.print("Job Duration: ");
-                  for(int i = 0; i < jobDurationList.size(); i++)
-                  {
-                    totalDuration += jobDurationList.get(i);
-                    System.out.print(totalDuration + ", ");
-                  }
                 }
                 catch (FileNotFoundException x)
                 {
                   x.printStackTrace();
+                }
+                try
+                {
+                    Scanner idScan = new Scanner(file);
+                    while(idScan.hasNextLine())
+                    {
+                        idValue = idScan.nextLine();
+                        if(idValue.indexOf("ID") > 0 )
+                        {
+                            idValueCount = Integer.valueOf(idValue.substring(11, idValue.length()));
+                            idList.add(idValueCount);
+                        }
+                    }
+                    
+                    for(int j = 0; j < idList.size(); j++)
+                    {
+                        System.out.print(" Job ID: " + idList.get(j) + " finishes at");
+                        totalDuration += jobDurationList.get(j);
+                        System.out.print(" Duration: " + totalDuration + " hours " + "\n");
+                    }
+                    idScan.close();
+                }
+                catch (FileNotFoundException y)
+                {
+                    y.printStackTrace();
                 }
             }
         });
@@ -565,9 +614,11 @@ public class GUIWork implements ActionListener
         userButton.setBounds(150, 200, 80, 25);
         panel.add(userButton);
 
-        ownerButton = new JButton(new AbstractAction("Owner") {
+        ownerButton = new JButton(new AbstractAction("Owner") 
+        {
             @Override
-            public void actionPerformed(ActionEvent e) {
+            public void actionPerformed(ActionEvent e) 
+            {
                 frame.dispose();
                 ownerFrame.setVisible(true);
             }
@@ -580,7 +631,8 @@ public class GUIWork implements ActionListener
     }
 
     @Override
-    public void actionPerformed(ActionEvent e) {
+    public void actionPerformed(ActionEvent e) 
+    {
 
     }
 }
