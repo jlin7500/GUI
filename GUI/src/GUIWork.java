@@ -17,7 +17,8 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.Scanner;
 
-public class GUIWork implements ActionListener {
+public class GUIWork implements ActionListener 
+{
     static int previousID = 0;
     static int totalDuration = 0;
     static int integerData = 0;
@@ -48,7 +49,7 @@ public class GUIWork implements ActionListener {
     private static JButton userBack;
     private static JLabel message;
 
-    // Cloud controller
+    //Cloud controller
     private static JButton adminButton;
     private static JLabel adminUser;
     private static JLabel adminPass;
@@ -60,7 +61,7 @@ public class GUIWork implements ActionListener {
     private static JButton adminClear;
     private static JButton adminBack;
 
-    // Cloud controller commands
+    //Cloud controller commands
     private static JButton computeCompletionTime;
     private static JButton cloudBack;
 
@@ -76,6 +77,7 @@ public class GUIWork implements ActionListener {
     private static JLabel Received;
     private static JTextField ClientName;
     private static JButton clientClear;
+
 
     // Owner
     private static JLabel welcomeMessage;
@@ -97,8 +99,9 @@ public class GUIWork implements ActionListener {
     private static JButton submit;
     private static JButton ownerClear;
 
-    public static void main(String[] args) throws IOException {
-
+    public static void main(String[] args) throws IOException 
+    {
+        
         JFrame userFrame = new JFrame("Welcome Client !"); // client title section
         userFrame.setSize(500, 500);
         userFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -115,44 +118,45 @@ public class GUIWork implements ActionListener {
         frame.setVisible(true);
 
         JFrame adminFrame = new JFrame("Cloud Controller");
-        adminFrame.setSize(500, 500);
+        adminFrame.setSize(500,500);
         adminFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         adminFrame.setVisible(false);
 
         JFrame cloudFrame = new JFrame("Vehicle Controller Functions");
-        cloudFrame.setSize(500, 500);
+        cloudFrame.setSize(500,500);
         cloudFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         cloudFrame.setVisible(false);
 
-        // Background
+      //Background
         JLabel panel = new JLabel();
         ImageIcon img5 = new ImageIcon("background5.png");
-        panel = new JLabel("", img5, JLabel.CENTER);
+        panel = new JLabel ("",img5, JLabel.CENTER);
         frame.add(panel);
-
-        // Background for client
+        
+        //Background for client
         JLabel userPanel = new JLabel();
         ImageIcon img6 = new ImageIcon("background4.png");
-        userPanel = new JLabel("", img6, JLabel.CENTER);
+        userPanel = new JLabel ("",img6, JLabel.CENTER);
         userFrame.add(userPanel);
-
-        // Background for Admin
+       
+        //Background for Admin
         JLabel adminPanel = new JLabel();
         ImageIcon img7 = new ImageIcon("background.png");
-        adminPanel = new JLabel("", img7, JLabel.CENTER);
+        adminPanel = new JLabel ("",img7, JLabel.CENTER);
         adminFrame.add(adminPanel);
-
-        // Background for Owner
+        
+        //Background for Owner
         JLabel ownerPanel = new JLabel();
         ImageIcon img8 = new ImageIcon("background6.png");
-        ownerPanel = new JLabel("", img8, JLabel.CENTER);
+        ownerPanel = new JLabel ("",img8, JLabel.CENTER);
         ownerFrame.add(ownerPanel);
-
+        
         JPanel cloudPanel = new JPanel();
         cloudFrame.add(cloudPanel);
         cloudPanel.setBackground(Color.lightGray);
+        
 
-        // Main GUI images
+      //Main GUI images
         BufferedImage img = ImageIO.read(new File("Client.png"));
         Image image = img.getScaledInstance(71, 71, Image.SCALE_SMOOTH);
         ImageIcon icon = new ImageIcon(image);
@@ -161,7 +165,7 @@ public class GUIWork implements ActionListener {
         pic.setBounds(200, 145, 80, 100);// ( 150,210,80,100) under client button
         panel.add(pic);
 
-        // GUI image 2
+        //GUI image 2
         BufferedImage img2 = ImageIO.read(new File("Owner.png"));
         Image image2 = img2.getScaledInstance(71, 71, Image.SCALE_SMOOTH);
         ImageIcon icon2 = new ImageIcon(image2);
@@ -169,17 +173,17 @@ public class GUIWork implements ActionListener {
         pic2.setIcon(icon2);
         pic2.setBounds(320, 145, 80, 100);// above owner button
         panel.add(pic2);
-
-        // GUI image 3
+        
+        //GUI image 3
         BufferedImage img3 = ImageIO.read(new File("VCcontroller.png"));
         Image image3 = img3.getScaledInstance(117, 117, Image.SCALE_SMOOTH);
         ImageIcon icon3 = new ImageIcon(image3);
         JLabel pic3 = new JLabel();
         pic3.setIcon(icon3);
-        pic3.setBounds(236, 255, 175, 125);// above VC button
+        pic3.setBounds(236,255,175,125);// above VC button
         panel.add(pic3);
-
-        // GUI image 4
+        
+        //GUI image 4 
         BufferedImage img4 = ImageIO.read(new File("cloud.png"));
         Image image4 = img4.getScaledInstance(100, 100, Image.SCALE_SMOOTH);
         ImageIcon icon4 = new ImageIcon(image4);
@@ -187,7 +191,8 @@ public class GUIWork implements ActionListener {
         pic4.setIcon(icon4);
         pic4.setBounds(245, 0, 150, 150);// Above the message
         panel.add(pic4);
-
+        
+        
         // Welcome message
 
         ownerPanel.setLayout(null);
@@ -265,9 +270,11 @@ public class GUIWork implements ActionListener {
         message.setBounds(174, 121, 300, 25);
         panel.add(message);
 
-        userBack = new JButton(new AbstractAction("Back") {
+        userBack = new JButton(new AbstractAction("Back") 
+        {
             @Override
-            public void actionPerformed(ActionEvent e) {
+            public void actionPerformed(ActionEvent e) 
+            {
                 userFrame.dispose();
                 frame.setVisible(true);
             }
@@ -276,38 +283,45 @@ public class GUIWork implements ActionListener {
         userBack.setBounds(30, 200, 80, 25); // was set to 100
         userPanel.add(userBack);
 
-        ownerBack = new JButton(new AbstractAction("Back") {
+        ownerBack = new JButton(new AbstractAction("Back") 
+        {
             @Override
-            public void actionPerformed(ActionEvent e) {
+            public void actionPerformed(ActionEvent e) 
+            {
                 ownerFrame.dispose();
                 frame.setVisible(true);
                 System.out.println("it works");
             }
         });
 
+
         ownerBack.setBounds(30, 350, 80, 25);
         ownerPanel.add(ownerBack);
 
-        adminBack = new JButton(new AbstractAction("Back") {
+        adminBack = new JButton(new AbstractAction("Back") 
+        {
             @Override
-            public void actionPerformed(ActionEvent e) {
+            public void actionPerformed(ActionEvent e)
+            {
                 adminFrame.dispose();
                 frame.setVisible(true);
             }
         });
-
-        adminBack.setBounds(150, 250, 80, 25);
+        
+        adminBack.setBounds(150,250,80,25);
         adminPanel.add(adminBack);
 
-        cloudBack = new JButton(new AbstractAction("Back") {
+        cloudBack = new JButton(new AbstractAction("Back") 
+        {
             @Override
-            public void actionPerformed(ActionEvent e) {
+            public void actionPerformed(ActionEvent e)
+            {
                 cloudFrame.dispose();
                 adminFrame.setVisible(true);
             }
         });
 
-        cloudBack.setBounds(150, 250, 80, 25);
+        cloudBack.setBounds(150,250,80,25);
         cloudPanel.add(cloudBack);
         // Welcome info
         Fillout = new JLabel("Please fill out the following information");
@@ -359,47 +373,55 @@ public class GUIWork implements ActionListener {
 
         adminPanel.setLayout(null);
         adminUser = new JLabel("Username");
-        adminUser.setBounds(150, 150, 125, 25);
+        adminUser.setBounds(150,150,125,25);
         adminPanel.add(adminUser);
 
         adminUsername = new JTextField();
-        adminUsername.setBounds(225, 150, 125, 25);
+        adminUsername.setBounds(225,150,125,25);
         adminPanel.add(adminUsername);
 
         adminPass = new JLabel("Password");
-        adminPass.setBounds(150, 200, 125, 25);
+        adminPass.setBounds(150,200,125,25);
         adminPanel.add(adminPass);
 
         adminPanel.setLayout(null);
         adminPassword = new JPasswordField();
-        adminPassword.setBounds(225, 200, 125, 25);
+        adminPassword.setBounds(225,200,125,25);
         adminPanel.add(adminPassword);
 
+
         adminPrompt = new JLabel("Please enter your username and password.");
-        adminPrompt.setBounds(10, 5, 400, 25);
+        adminPrompt.setBounds(10,5,400,25);
         adminPanel.add(adminPrompt);
 
         adminPanel.setLayout(null);
         adminSuccess = new JLabel("");
-        adminSuccess.setBounds(230, 275, 200, 25);
+        adminSuccess.setBounds(230,275,200,25);
         adminPanel.add(adminSuccess);
 
-        adminInfoButton = new JButton(new AbstractAction("Submit") {
+
+        adminInfoButton = new JButton(new AbstractAction("Submit")
+        {
             @Override
-            public void actionPerformed(ActionEvent e) {
+            public void actionPerformed(ActionEvent e)
+            {
 
                 String adminName = adminUsername.getText();
                 String adminPas = adminPassword.getText();
                 String password = "test";
 
-                if (adminName.length() > 0 && adminPas.length() > 0) {
+                if(adminName.length() > 0 && adminPas.length() > 0)
+                {
 
-                    if (adminPas.equals(password)) {
+                    if(adminPas.equals(password))
+                    {
                         adminSuccess.setText("Successfully registered.");
                         adminFrame.dispose();
                         cloudFrame.setVisible(true);
                     }
-                } else {
+                }
+                else
+                {
                     adminSuccess.setText("Username or password wrong.");
                 }
                 adminUsername.setText("");
@@ -409,15 +431,19 @@ public class GUIWork implements ActionListener {
         });
 
         adminPanel.setLayout(null);
-        adminInfoButton.setBounds(250, 250, 80, 25);
+        adminInfoButton.setBounds(250,250,80,25);
         adminPanel.add(adminInfoButton);
 
-        userInfoButton = new JButton(new AbstractAction("Submit") {
+       
+
+        userInfoButton = new JButton(new AbstractAction("Submit") 
+        {
 
             @Override
-            public void actionPerformed(ActionEvent e) {
+            public void actionPerformed(ActionEvent e) 
+            {
                 String client = ID.getText();
-
+                
                 String time = Hours.getText();
                 String dueDate = Date.getText();
                 String name = ClientName.getText();
@@ -425,30 +451,37 @@ public class GUIWork implements ActionListener {
                 DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm:ss");
                 LocalDateTime now = LocalDateTime.now();
                 String DateTimer = (dtf.format(now));
-
-                if (client.length() > 0 && time.length() > 0 && dueDate.length() > 0 && name.length() > 0) {
+                
+               
+                if (client.length() > 0 && time.length() > 0 && dueDate.length() > 0 && name.length() > 0)
+                {
 
                     success.setText("Registered successful at " + DateTimer);
 
-                    try {
+                    try
+                    {
                         BufferedWriter test;
                         System.out.println("Start writing");
                         test = new BufferedWriter(new FileWriter("ClientInfo.txt", true));
                         test.append("\n");
                         test.append("Name: " + name + "\n");
-                        // test.append("Client ID: " + client + "\n");
+                        //test.append("Client ID: " + client + "\n");
 
-                        idValueCount = (int) (Math.random() * range) + min;
+                        idValueCount = (int)(Math.random() * range) + min;
                         idList.add(idValueCount);
-                        idValueCount = (int) (Math.random() * range) + min;
-                        if (idList.contains(idValueCount)) {
+                        idValueCount = (int)(Math.random() * range) + min;
+                        if(idList.contains(idValueCount))
+                        {
                             previousID = idValueCount;
-
-                            idValueCount = (int) (Math.random() * range) + min;
-                            if (previousID != idValueCount) {
-                                test.append("Client ID: " + idValueCount + "\n");
+                        
+                            idValueCount = (int)(Math.random() * range) + min;
+                            if(previousID != idValueCount)
+                            {
+                            test.append("Client ID: " + idValueCount + "\n");
                             }
-                        } else {
+                        }
+                        else
+                        {
                             test.append("Client ID: " + idValueCount + "\n");
                         }
                         test.append("Job Duration: " + time + "\n");
@@ -456,17 +489,20 @@ public class GUIWork implements ActionListener {
                         test.append("Registration time: " + DateTimer + "\n");
                         test.close();
                         System.out.println("Written successfully");
-                    }
-
-                    catch (IOException ex) {
+                    } 
+                    
+                    catch (IOException ex)
+                    {
                         ex.printStackTrace();
                     }
-
+                    
                     ID.setText("");
                     Hours.setText("");
                     Date.setText("");
                     ClientName.setText("");
-                } else {
+                } 
+                else 
+                {
                     success.setText("Please fill out all fields.");
                 }
             }
@@ -475,9 +511,11 @@ public class GUIWork implements ActionListener {
         userInfoButton.setBounds(250, 200, 80, 25);
         userPanel.add(userInfoButton);
 
-        ownerInfoButton = new JButton(new AbstractAction("Submit") {
+        ownerInfoButton = new JButton(new AbstractAction("Submit") 
+        {
             @Override
-            public void actionPerformed(ActionEvent e) {
+            public void actionPerformed(ActionEvent e) 
+            {
                 String ownerName = name.getText();
                 String ownerID = id.getText();
                 String carMake = make.getText();
@@ -491,9 +529,11 @@ public class GUIWork implements ActionListener {
                 String DateTimer1 = (dtf1.format(now1));
 
                 if (ownerName.length() > 0 && ownerID.length() > 0 && carMake.length() > 0 && carModel.length() > 0 &&
-                        carYear.length() > 0 && carLocation.length() > 0 && residencyTime.length() > 0) {
+                        carYear.length() > 0 && carLocation.length() > 0 && residencyTime.length() > 0)
+                {
                     ownerSuccess.setText("Successfully registered. " + DateTimer1);
-                    try {
+                    try
+                    {
                         BufferedWriter test;
                         System.out.println("Buffered Writer start writing");
                         test = new BufferedWriter(new FileWriter("OwnerInfo.txt", true));
@@ -505,10 +545,12 @@ public class GUIWork implements ActionListener {
                         test.append("Car Year: " + carYear + "\n");
                         test.append("Manufactured Location: " + carLocation + "\n");
                         test.append("Residency Time: " + residencyTime + "\n");
-                        test.append("Registered Successfully: " + DateTimer1 + "\n");
+                        test.append("Registered Successfully: "  + DateTimer1 +  "\n");
                         test.close();
                         System.out.println("Written successfully");
-                    } catch (IOException ex) {
+                    } 
+                    catch (IOException ex)
+                    {
                         ex.printStackTrace();
                     }
 
@@ -519,76 +561,96 @@ public class GUIWork implements ActionListener {
                     year.setText("");
                     location.setText("");
                     Time.setText("");
-                } else {
-                    ownerSuccess.setText("Please fill out all the fields.");
                 }
+                    else
+                    {
+                        ownerSuccess.setText("Please fill out all the fields.");
+                    }
             }
         });
         ownerInfoButton.setBounds(250, 350, 80, 25);
         ownerPanel.add(ownerInfoButton);
 
-        computeCompletionTime = new JButton(new AbstractAction("Completion time") {
+        
+        computeCompletionTime = new JButton(new AbstractAction("Completion time") 
+        {
             @Override
-            public void actionPerformed(ActionEvent e) {
+            public void actionPerformed(ActionEvent e)
+            {
                 File file = new File("C:\\Users\\Jonat\\Downloads\\GUI-branchTest_2\\GUI-branchTest\\ClientInfo.txt");
                 String data;
-                try {
-                    Scanner sc = new Scanner(file);
+                try
+                {
+                  Scanner sc = new Scanner(file);
+          
+                  while(sc.hasNextLine())
+                  {
+                    data = sc.nextLine();
+                    if(data.indexOf("Duration") > 0)
+                    {
 
-                    while (sc.hasNextLine()) {
-                        data = sc.nextLine();
-                        if (data.indexOf("Duration") > 0) {
+                    integerData = Integer.valueOf(data.substring(14, data.length()));
+                    jobDurationList.add(integerData);
+                    completionTime += integerData;
 
-                            integerData = Integer.valueOf(data.substring(14, data.length()));
-                            jobDurationList.add(integerData);
-                            completionTime += integerData;
-
-                        }
                     }
-                    sc.close();
-                } catch (FileNotFoundException x) {
-                    x.printStackTrace();
+                  }
+                  sc.close();
                 }
-                try {
+                catch (FileNotFoundException x)
+                {
+                  x.printStackTrace();
+                }
+                try
+                {
                     Scanner idScan = new Scanner(file);
-                    while (idScan.hasNextLine()) {
+                    while(idScan.hasNextLine())
+                    {
                         idValue = idScan.nextLine();
-                        if (idValue.indexOf("ID") > 0) {
+                        if(idValue.indexOf("ID") > 0 )
+                        {
                             idValueCount = Integer.valueOf(idValue.substring(11, idValue.length()));
                             idList.add(idValueCount);
                         }
                     }
-
-                    for (int j = 0; j < idList.size(); j++) {
+                    
+                    for(int j = 0; j < idList.size(); j++)
+                    {
                         System.out.print(" Job ID: " + idList.get(j) + " finishes at");
                         totalDuration += jobDurationList.get(j);
                         System.out.print(" Duration: " + totalDuration + " hours " + "\n");
                     }
                     idScan.close();
-                } catch (FileNotFoundException y) {
+                }
+                catch (FileNotFoundException y)
+                {
                     y.printStackTrace();
                 }
             }
         });
-
-        computeCompletionTime.setBounds(250, 350, 80, 25); // 250,350,80,25 , 250,350,150,25
+        
+        computeCompletionTime.setBounds(250,350,80,25); //250,350,80,25 , 250,350,150,25
         cloudPanel.add(computeCompletionTime);
 
-        adminButton = new JButton(new AbstractAction("Cloud Controller") {
+        adminButton = new JButton(new AbstractAction("Cloud Controller")
+        {
             @Override
-            public void actionPerformed(ActionEvent e) {
+            public void actionPerformed(ActionEvent e)
+            {
                 frame.dispose();
                 adminFrame.setVisible(true);
             }
         });
 
         panel.setLayout(null);
-        adminButton.setBounds(206, 370, 175, 25);// (150,300,175,25) controller button
+        adminButton.setBounds(206,370,175,25);//(150,300,175,25) controller button
         panel.add(adminButton);
 
-        userButton = new JButton(new AbstractAction("Client") {
+        userButton = new JButton(new AbstractAction("Client")
+         {
             @Override
-            public void actionPerformed(ActionEvent e) {
+            public void actionPerformed(ActionEvent e) 
+            {
                 frame.dispose();
                 userFrame.setVisible(true);
 
@@ -596,25 +658,28 @@ public class GUIWork implements ActionListener {
         });
 
         panel.setLayout(null);
-        userButton.setBounds(194, 235, 80, 25); // ( 150,200,80,25) client button
+        userButton.setBounds(194, 235, 80, 25); //( 150,200,80,25) client button
         panel.add(userButton);
 
-        ownerButton = new JButton(new AbstractAction("Owner") {
+        ownerButton = new JButton(new AbstractAction("Owner") 
+        {
             @Override
-            public void actionPerformed(ActionEvent e) {
+            public void actionPerformed(ActionEvent e) 
+            {
                 frame.dispose();
                 ownerFrame.setVisible(true);
             }
         });
 
-        ownerButton.setBounds(314, 235, 80, 25); // (250,200,80,25) owner button
+        ownerButton.setBounds(314, 235, 80, 25); //(250,200,80,25) owner button
         panel.add(ownerButton);
 
         frame.setVisible(true);
     }
 
     @Override
-    public void actionPerformed(ActionEvent e) {
+    public void actionPerformed(ActionEvent e) 
+    {
 
     }
 }
