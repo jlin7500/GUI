@@ -67,8 +67,6 @@ public class GUIWork implements ActionListener
 
     // Client
     private static JLabel Fillout;
-    private static JLabel ClientID;
-    private static JTextField ID;
     private static JLabel JobDuration;
     private static JTextField Hours;
     private static JLabel Deadline;
@@ -83,8 +81,6 @@ public class GUIWork implements ActionListener
     private static JLabel welcomeMessage;
     private static JLabel ownerName;
     private static JTextField name;
-    private static JLabel ownerID;
-    private static JTextField id;
     private static JLabel vehicleInfo;
     private static JLabel carMake;
     private static JTextField make;
@@ -207,63 +203,56 @@ public class GUIWork implements ActionListener
         name = new JTextField();
         name.setBounds(100, 40, 165, 25);
         ownerPanel.add(name);
-        // Owner ID
-        ownerID = new JLabel("Owner ID");
-        ownerID.setBounds(10, 75, 80, 25);
-        ownerPanel.add(ownerID);
-
-        id = new JTextField();
-        id.setBounds(100, 75, 165, 25);
-        ownerPanel.add(id);
+     
         // Vehicle Information
         vehicleInfo = new JLabel("Vehicle Information:");
-        vehicleInfo.setBounds(10, 110, 150, 25);
+        vehicleInfo.setBounds(10, 75, 150, 25);
         ownerPanel.add(vehicleInfo);
         // Make
         carMake = new JLabel("Make of Car");
-        carMake.setBounds(10, 145, 80, 25);
+        carMake.setBounds(10, 110, 80, 25);
         ownerPanel.add(carMake);
 
         make = new JTextField();
-        make.setBounds(100, 145, 165, 25);
+        make.setBounds(100, 110, 165, 25);
         ownerPanel.add(make);
         // Model
         carModel = new JLabel("Model of car");
-        carModel.setBounds(10, 180, 80, 25);
+        carModel.setBounds(10, 145, 80, 25);
         ownerPanel.add(carModel);
 
         model = new JTextField();
-        model.setBounds(100, 180, 165, 25);
+        model.setBounds(100, 145, 165, 25);
         ownerPanel.add(model);
         // Year
         carYear = new JLabel("Year made");
-        carYear.setBounds(10, 215, 80, 25);
+        carYear.setBounds(10, 180, 80, 25);
         ownerPanel.add(carYear);
 
         year = new JTextField();
-        year.setBounds(100, 215, 165, 25);
+        year.setBounds(100, 180, 165, 25);
         ownerPanel.add(year);
 
         // Location
         carLocation = new JLabel("Location of Manufacture");
-        carLocation.setBounds(10, 250, 200, 25);
+        carLocation.setBounds(10, 215, 200, 25);
         ownerPanel.add(carLocation);
 
         location = new JTextField();
-        location.setBounds(200, 250, 165, 25);
+        location.setBounds(200, 215, 165, 25);
         ownerPanel.add(location);
         // Residency Time
         residencyTime = new JLabel("Residency Time of Vehicle");
-        residencyTime.setBounds(10, 285, 200, 25);
+        residencyTime.setBounds(10, 250, 200, 25);
         ownerPanel.add(residencyTime);
 
         Time = new JTextField();
-        Time.setBounds(200, 285, 165, 25);
+        Time.setBounds(200, 250, 165, 25);
         ownerPanel.add(Time);
 
         // Success message
         ownerSuccess = new JLabel("");
-        ownerSuccess.setBounds(210, 270, 350, 250);
+        ownerSuccess.setBounds(210, 250, 350, 250);
         ownerPanel.add(ownerSuccess);
 
         message = new JLabel("Please select what you are registering for.");
@@ -280,7 +269,7 @@ public class GUIWork implements ActionListener
             }
         });
 
-        userBack.setBounds(30, 200, 80, 25); // was set to 100
+        userBack.setBounds(30, 165, 80, 25); // was set to 100
         userPanel.add(userBack);
 
         ownerBack = new JButton(new AbstractAction("Back") 
@@ -295,7 +284,7 @@ public class GUIWork implements ActionListener
         });
 
 
-        ownerBack.setBounds(30, 350, 80, 25);
+        ownerBack.setBounds(30, 300, 80, 25);
         ownerPanel.add(ownerBack);
 
         adminBack = new JButton(new AbstractAction("Back") 
@@ -337,34 +326,24 @@ public class GUIWork implements ActionListener
         ClientName.setBounds(100, 40, 165, 25);
         userPanel.add(ClientName);
 
-        // Adding Client ID
-        ClientID = new JLabel("Client ID");
-        ClientID.setBounds(10, 80, 80, 25);
-        userPanel.add(ClientID);
-
-        // Adding Client ID Text field
-        ID = new JTextField();
-        ID.setBounds(100, 80, 165, 25);
-        userPanel.add(ID);
-
         // Adding Approximate Job Duration
         JobDuration = new JLabel("Job Duration");
-        JobDuration.setBounds(10, 120, 100, 25);
+        JobDuration.setBounds(10, 75, 100, 25);
         userPanel.add(JobDuration);
 
         // Adding Job Duration
         Hours = new JTextField();
-        Hours.setBounds(100, 120, 80, 25);
+        Hours.setBounds(100, 75, 80, 25);
         userPanel.add(Hours);
 
         // Adding Job Deadline
         Deadline = new JLabel("Job Deadline");
-        Deadline.setBounds(10, 160, 80, 25);
+        Deadline.setBounds(10, 110, 80, 25);
         userPanel.add(Deadline);
 
         // Adding Date text field
         Date = new JTextField();
-        Date.setBounds(100, 160, 165, 25);
+        Date.setBounds(100, 110, 165, 25);
         userPanel.add(Date);
 
         success = new JLabel("");
@@ -442,7 +421,6 @@ public class GUIWork implements ActionListener
             @Override
             public void actionPerformed(ActionEvent e) 
             {
-                String client = ID.getText();
                 
                 String time = Hours.getText();
                 String dueDate = Date.getText();
@@ -453,7 +431,7 @@ public class GUIWork implements ActionListener
                 String DateTimer = (dtf.format(now));
                 
                
-                if (client.length() > 0 && time.length() > 0 && dueDate.length() > 0 && name.length() > 0)
+                if (time.length() > 0 && dueDate.length() > 0 && name.length() > 0)
                 {
 
                     success.setText("Registered successful at " + DateTimer);
@@ -496,7 +474,6 @@ public class GUIWork implements ActionListener
                         ex.printStackTrace();
                     }
                     
-                    ID.setText("");
                     Hours.setText("");
                     Date.setText("");
                     ClientName.setText("");
@@ -508,7 +485,7 @@ public class GUIWork implements ActionListener
             }
         });
 
-        userInfoButton.setBounds(250, 200, 80, 25);
+        userInfoButton.setBounds(250, 165, 80, 25);
         userPanel.add(userInfoButton);
 
         ownerInfoButton = new JButton(new AbstractAction("Submit") 
@@ -516,8 +493,11 @@ public class GUIWork implements ActionListener
             @Override
             public void actionPerformed(ActionEvent e) 
             {
+            	int min = 1000;
+            	int max = 9999;
+            	int i = (int)Math.floor(Math.random()*(max-min+1)+min);
+            	String s = String.valueOf(i);
                 String ownerName = name.getText();
-                String ownerID = id.getText();
                 String carMake = make.getText();
                 String carModel = model.getText();
                 String carYear = year.getText();
@@ -528,18 +508,19 @@ public class GUIWork implements ActionListener
                 LocalDateTime now1 = LocalDateTime.now();
                 String DateTimer1 = (dtf1.format(now1));
 
-                if (ownerName.length() > 0 && ownerID.length() > 0 && carMake.length() > 0 && carModel.length() > 0 &&
+                if (ownerName.length() > 0 && carMake.length() > 0 && carModel.length() > 0 &&
                         carYear.length() > 0 && carLocation.length() > 0 && residencyTime.length() > 0)
                 {
                     ownerSuccess.setText("Successfully registered. " + DateTimer1);
                     try
                     {
+                    	
                         BufferedWriter test;
                         System.out.println("Buffered Writer start writing");
                         test = new BufferedWriter(new FileWriter("OwnerInfo.txt", true));
                         test.append("\n");
                         test.append("Owner name: " + ownerName + "\n");
-                        test.append("Owner ID: " + ownerID + "\n");
+                        test.append("Owner ID: " + s + "\n");
                         test.append("Car Make: " + carMake + "\n");
                         test.append("Car Model: " + carModel + "\n");
                         test.append("Car Year: " + carYear + "\n");
@@ -555,7 +536,6 @@ public class GUIWork implements ActionListener
                     }
 
                     name.setText("");
-                    id.setText("");
                     make.setText("");
                     model.setText("");
                     year.setText("");
@@ -568,7 +548,7 @@ public class GUIWork implements ActionListener
                     }
             }
         });
-        ownerInfoButton.setBounds(250, 350, 80, 25);
+        ownerInfoButton.setBounds(250, 300, 80, 25);
         ownerPanel.add(ownerInfoButton);
 
         
