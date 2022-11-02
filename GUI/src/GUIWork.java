@@ -266,6 +266,7 @@ public class GUIWork implements ActionListener
             {
                 userFrame.dispose();
                 frame.setVisible(true);
+                success.setText("");
             }
         });
 
@@ -280,6 +281,7 @@ public class GUIWork implements ActionListener
                 ownerFrame.dispose();
                 frame.setVisible(true);
                 System.out.println("it works");
+                ownerSuccess.setText("");
             }
         });
 
@@ -294,6 +296,7 @@ public class GUIWork implements ActionListener
             {
                 adminFrame.dispose();
                 frame.setVisible(true);
+                adminSuccess.setText("");
             }
         });
         
