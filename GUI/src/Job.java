@@ -1,29 +1,29 @@
 
 public class Job {
-		
-	Client assignedClient;
+
+	String assignedClient;
 	String deadline;
 	String duration;
 	String status;
-	
-	public Job(){
+
+	public Job() {
 		status = "Requested";
-		
+
 	}
-	
-	private void addNewClient (Client newClient) {
+
+	public void addNewClient(String newClient) {
 		assignedClient = newClient;
 	}
-	
-	private void addNewDeadline(String newDeadline) {
+
+	public void addNewDeadline(String newDeadline) {
 		deadline = newDeadline;
 	}
-	
-	private void addNewDuration (String newDuration) {
+
+	public void addNewDuration(String newDuration) {
 		duration = newDuration;
 	}
-	
-	private void changeStatus(String newStatus) {
+
+	public void changeStatus(String newStatus) {
 		status = newStatus;
 	}
 }
