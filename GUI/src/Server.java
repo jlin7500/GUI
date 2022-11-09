@@ -43,6 +43,7 @@ public class Server {
                     if (response.toLowerCase().equals("y")) {
                         System.out.println("Information accepted");
                         serverOutput = "messageAccepted";
+                        numOfMessagesSaved++;
                         break;
                     } else if (response.toLowerCase().equals("n")) {
                         System.out.println("Information rejected");
@@ -63,7 +64,7 @@ public class Server {
     }
 
     public static void getMessageSavedCount() {
-        System.out.print("Number of Messages Saved: " + numOfMessagesSaved);
+        System.out.println("Number of Messages Saved: " + numOfMessagesSaved);
     }
 
 }
