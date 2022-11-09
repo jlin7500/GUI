@@ -3,18 +3,20 @@ import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.Scanner;
 
-
 public class Server {
-	static ServerSocket serverSocket;
+    static ServerSocket serverSocket;
     static Socket socket;
     static DataInputStream inputStream;
     static DataOutputStream outputStream;
+
+    private static int numOfMessagesSaved = 0;
 
     public static void main(String[] args) {
         String clientInput = "";
         String serverOutput = "";
         String response = "";
         Scanner input;
+
         boolean serverRunning = false;
 
         try {
@@ -30,35 +32,38 @@ public class Server {
 
                 inputStream = new DataInputStream(socket.getInputStream());
                 outputStream = new DataOutputStream(socket.getOutputStream());
-                
+
                 clientInput = inputStream.readUTF();
                 System.out.println("Input received");
                 System.out.println(clientInput.toString());
                 System.out.println("Would you like to save this message? y/n?");
                 input = new Scanner(System.in);
                 response = input.nextLine();
-                while(!response.equals("y") || !response.equals("n"))
-                {
-                	if (response.toLowerCase().equals("accept")) {
+                while (!response.equals("y") || !response.equals("n")) {
+                    if (response.toLowerCase().equals("y")) {
                         System.out.println("Information accepted");
-                        serverOutput = "accept";
+                        serverOutput = "messageAccepted";
                         break;
-                    }
-                    else if(response.toLowerCase().equals("reject"))
-                    {
+                    } else if (response.toLowerCase().equals("n")) {
                         System.out.println("Information rejected");
-                        serverOutput = "reject";
+                        serverOutput = "messageReject";
                         break;
-                    }
-                    else {
+                    } else {
                         System.out.println("That is not a valid response. Please try again.");
                         response = input.nextLine();
                     }
                 }
-                outputStream.writeUTF(serverOutput);
+                getMessageSavedCount();
+                // outputStream.writeUTF(serverOutput);
             }
         } catch (Exception e) {
             e.printStackTrace();
         }
+
     }
+
+    public static void getMessageSavedCount() {
+        System.out.print("Number of Messages Saved: " + numOfMessagesSaved);
+    }
+
 }
