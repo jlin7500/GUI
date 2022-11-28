@@ -1,18 +1,21 @@
 
 public class Job {
 
-	String assignedClient;
-	String deadline;
-	String duration;
-	String status;
+	private String assignedClient;
+	private String assignedClientId;
+	private String deadline;
+	private String duration;
+	private String status;
+	private Car assignedCar;
 
 	public Job() {
 		status = "Requested";
 
 	}
 
-	public void addNewClient(String newClient) {
+	public void addNewClient(String newClient, String newClientId) {
 		assignedClient = newClient;
+		assignedClientId = newClientId;
 	}
 
 	public void addNewDeadline(String newDeadline) {
@@ -25,5 +28,19 @@ public class Job {
 
 	public void changeStatus(String newStatus) {
 		status = newStatus;
+	}
+
+	public void assignCar(Car car) {
+		assignedCar = car;
+	}
+
+	public String getRequestAsString() {
+		return "Client: " + assignedClient + " ClientId: " + assignedClientId + " Deadline: " + deadline + " Duration: "
+				+ duration;
+	}
+
+	public String getJobAsString() {
+		return "Job Status " + status + " Client: " + assignedClient + " ClientId: " + assignedClientId + " Deadline: "
+				+ deadline + " Duration: " + duration + " Car Model: " + assignedCar.getCarModel();
 	}
 }
