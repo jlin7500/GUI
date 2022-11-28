@@ -5,6 +5,10 @@ import java.sql.ClientInfoStatus;
 import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.Color;
+
+import javax.swing.event.TableModelEvent;
+import javax.swing.table.DefaultTableModel;
+import java.awt.Font;
 import java.awt.Dimension;
 import java.awt.Image;
 import java.awt.event.ActionEvent;
@@ -20,6 +24,8 @@ import java.net.ServerSocket;
 import java.net.Socket;
 
 public class GUIWork implements ActionListener {
+    static int pressed;
+    static String listenServer = "listen";
     static ServerSocket serverSocket;
     static Socket socket;
     static DataInputStream inputStream;
@@ -80,7 +86,8 @@ public class GUIWork implements ActionListener {
     private static JLabel Received;
     private static JTextField ClientName;
     private static JButton clientClear;
-
+    private static JLabel clientID;
+    private static JTextField clientIDText;
     // Owner
     private static JLabel welcomeMessage;
     private static JLabel ownerName;
@@ -100,6 +107,7 @@ public class GUIWork implements ActionListener {
     private static JButton ownerClear;
 
     public static void main(String[] args) throws IOException {
+        // Server Socket
         socket = new Socket("localhost", 3000);
         inputStream = new DataInputStream(socket.getInputStream());
         outputStream = new DataOutputStream(socket.getOutputStream());
@@ -124,9 +132,12 @@ public class GUIWork implements ActionListener {
         adminFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         adminFrame.setVisible(false);
 
+        // Cloud Frame with Table
         JFrame cloudFrame = new JFrame("Vehicle Controller Functions");
-        cloudFrame.setSize(500, 500);
+        cloudFrame.setSize(700, 625);
         cloudFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        cloudFrame.setLocationRelativeTo(null);
+        cloudFrame.getContentPane().layout();
         cloudFrame.setVisible(false);
 
         // Background
@@ -153,9 +164,11 @@ public class GUIWork implements ActionListener {
         ownerPanel = new JLabel("", img8, JLabel.CENTER);
         ownerFrame.add(ownerPanel);
 
-        JPanel cloudPanel = new JPanel();
+        // Background for Cloud
+        JLabel cloudPanel = new JLabel();
+        ImageIcon img9 = new ImageIcon("Background6.png");
+        cloudPanel = new JLabel("", img9, JLabel.CENTER);
         cloudFrame.add(cloudPanel);
-        cloudPanel.setBackground(Color.lightGray);
 
         // Main GUI images
         BufferedImage img = ImageIO.read(new File("Client.png"));
@@ -163,7 +176,7 @@ public class GUIWork implements ActionListener {
         ImageIcon icon = new ImageIcon(image);
         JLabel pic = new JLabel();
         pic.setIcon(icon);
-        pic.setBounds(200, 145, 80, 100);// ( 150,210,80,100) under client button
+        pic.setBounds(200, 145, 80, 100);// (150,210,80,100) under client button
         panel.add(pic);
 
         // GUI image 2
@@ -192,6 +205,34 @@ public class GUIWork implements ActionListener {
         pic4.setIcon(icon4);
         pic4.setBounds(245, 0, 150, 150);// Above the message
         panel.add(pic4);
+
+        // Table
+        JTable timeTable = new JTable();
+        Object[] column = { "Job ID", "Duration (hrs)" };
+        DefaultTableModel timeModel = new DefaultTableModel();
+
+        timeModel.setColumnIdentifiers(column);
+        timeTable.setModel(timeModel);
+
+        timeTable.setBackground(Color.white);
+        timeTable.setForeground(Color.black);
+        timeTable.setGridColor(Color.gray);
+        timeTable.setSelectionBackground(Color.white);
+        timeTable.setSelectionForeground(Color.white);
+        timeTable.setFont(new Font("Times New Roman", Font.PLAIN, 17)); // Change font
+        timeTable.setRowHeight(30);
+        timeTable.setAutoCreateRowSorter(true);
+
+        JScrollPane scroll = new JScrollPane(timeTable);
+        scroll.setForeground(Color.blue);
+        scroll.setBackground(Color.white);
+        scroll.setBounds(100, 50, 500, 300);
+        scroll.setOpaque(false);
+        scroll.getViewport().setOpaque(false);
+        cloudPanel.add(scroll);
+
+        // Row
+        Object[] valueRow = new Object[2];
 
         // Welcome message
 
@@ -272,7 +313,7 @@ public class GUIWork implements ActionListener {
             }
         });
 
-        userBack.setBounds(30, 165, 80, 25); // was set to 100
+        userBack.setBounds(30, 200, 80, 25); // was set to 100 user back button
         userPanel.add(userBack);
 
         ownerBack = new JButton(new AbstractAction("Back") {
@@ -285,7 +326,7 @@ public class GUIWork implements ActionListener {
             }
         });
 
-        ownerBack.setBounds(30, 300, 80, 25);
+        ownerBack.setBounds(30, 300, 80, 25);// owner back button
         ownerPanel.add(ownerBack);
 
         adminBack = new JButton(new AbstractAction("Back") {
@@ -297,18 +338,24 @@ public class GUIWork implements ActionListener {
             }
         });
 
-        adminBack.setBounds(150, 250, 80, 25);
+        adminBack.setBounds(150, 250, 80, 25); // admin back button
         adminPanel.add(adminBack);
 
         cloudBack = new JButton(new AbstractAction("Back") {
             @Override
             public void actionPerformed(ActionEvent e) {
+                while (timeModel.getRowCount() > 0) {
+                    timeModel.removeRow(0);
+                    timeModel.fireTableDataChanged();
+                }
+
                 cloudFrame.dispose();
                 adminFrame.setVisible(true);
             }
+
         });
 
-        cloudBack.setBounds(150, 250, 80, 25);
+        cloudBack.setBounds(245, 5, 80, 25); // cloud back button
         cloudPanel.add(cloudBack);
         // Welcome info
         Fillout = new JLabel("Please fill out the following information");
@@ -320,32 +367,41 @@ public class GUIWork implements ActionListener {
         userLabel.setBounds(10, 40, 80, 25); // was 10, 20, 80,25
         userPanel.add(userLabel);
 
+        userPanel.setLayout(null);
+        clientID = new JLabel("Client ID");
+        clientID.setBounds(10, 75, 80, 25);
+        userPanel.add(clientID);
+
+        clientIDText = new JTextField();
+        clientIDText.setBounds(100, 75, 165, 25);
+        userPanel.add(clientIDText);
+
         ClientName = new JTextField();
         ClientName.setBounds(100, 40, 165, 25);
         userPanel.add(ClientName);
 
         // Adding Approximate Job Duration
         JobDuration = new JLabel("Job Duration");
-        JobDuration.setBounds(10, 75, 100, 25);
+        JobDuration.setBounds(10, 110, 100, 25);
         userPanel.add(JobDuration);
 
         // Adding Job Duration
         Hours = new JTextField();
-        Hours.setBounds(100, 75, 80, 25);
+        Hours.setBounds(100, 110, 80, 25);
         userPanel.add(Hours);
 
         // Adding Job Deadline
         Deadline = new JLabel("Job Deadline");
-        Deadline.setBounds(10, 110, 80, 25);
+        Deadline.setBounds(10, 145, 80, 25);
         userPanel.add(Deadline);
 
         // Adding Date text field
         Date = new JTextField();
-        Date.setBounds(100, 110, 165, 25);
+        Date.setBounds(100, 145, 165, 25);
         userPanel.add(Date);
 
         success = new JLabel("");
-        success.setBounds(200, 110, 350, 250);
+        success.setBounds(200, 145, 350, 250);
         userPanel.add(success);
 
         adminPanel.setLayout(null);
@@ -404,13 +460,13 @@ public class GUIWork implements ActionListener {
         adminPanel.add(adminInfoButton);
 
         userInfoButton = new JButton(new AbstractAction("Submit") {
-
             @Override
             public void actionPerformed(ActionEvent e) {
 
                 String time = Hours.getText();
                 String dueDate = Date.getText();
                 String name = ClientName.getText();
+                String clientIDValue = clientIDText.getText();
 
                 DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm:ss");
                 LocalDateTime now = LocalDateTime.now();
@@ -418,55 +474,75 @@ public class GUIWork implements ActionListener {
 
                 if (time.length() > 0 && dueDate.length() > 0 && name.length() > 0) {
 
-                    success.setText("Registered successful at " + DateTimer);
-
+                    //
                     try {
-                        BufferedWriter test;
-                        System.out.println("Start writing");
-                        test = new BufferedWriter(new FileWriter("ClientInfo.txt", true));
-                        test.append("\n");
-                        test.append("Name: " + name + "\n");
-                        // test.append("Client ID: " + client + "\n");
-
-                        idValueCount = (int) (Math.random() * range) + min;
-                        idList.add(idValueCount);
-                        idValueCount = (int) (Math.random() * range) + min;
-                        if (idList.contains(idValueCount)) {
-                            previousID = idValueCount;
+                        outputStream.writeUTF(name + " " + clientIDValue + " " + time + " " + dueDate);
+                    } catch (IOException e1) {
+                        // TODO Auto-generated catch block
+                        e1.printStackTrace();
+                    }
+                    try {
+                        listenServer = inputStream.readUTF();
+                    } catch (IOException e1) {
+                        // TODO Auto-generated catch block
+                        e1.printStackTrace();
+                    }
+                    listenServer.toString();
+                    if (listenServer.equals("y")) {
+                        try {
+                            BufferedWriter test;
+                            System.out.println("Start writing");
+                            test = new BufferedWriter(new FileWriter(
+                                    "C:\\Users\\Hong Zhao\\eclipse-workspace\\CUS1166-Project\\ClientInfo.txt", true));
+                            test.append("\n");
+                            test.append("Name: " + name + "\n");
+                            test.append("Client id: " + clientIDValue + "\n");
 
                             idValueCount = (int) (Math.random() * range) + min;
-                            if (previousID != idValueCount) {
-                                test.append("Client ID: " + idValueCount + "\n");
+                            idList.add(idValueCount);
+                            idValueCount = (int) (Math.random() * range) + min;
+                            if (idList.contains(idValueCount)) {
+                                previousID = idValueCount;
+
+                                idValueCount = (int) (Math.random() * range) + min;
+                                if (previousID != idValueCount) {
+                                    test.append("Job ID: " + idValueCount + "\n");
+                                }
+                            } else {
+                                test.append("Job ID: " + idValueCount + "\n");
                             }
-                        } else {
-                            test.append("Client ID: " + idValueCount + "\n");
+                            test.append("Job Duration: " + time + "\n");
+                            test.append("Job Deadline: " + dueDate + "\n");
+                            test.append("Registration time: " + DateTimer + "\n");
+                            test.close();
+                            System.out.println("Written successfully");
+                            success.setText("Registered successful at " + DateTimer);
                         }
-                        test.append("Job Duration: " + time + "\n");
-                        test.append("Job Deadline: " + dueDate + "\n");
-                        test.append("Registration time: " + DateTimer + "\n");
-                        test.close();
-                        System.out.println("Written successfully");
-                    }
 
-                    catch (IOException ex) {
-                        ex.printStackTrace();
-                    }
+                        catch (IOException ex) {
+                            ex.printStackTrace();
+                        }
 
-                    Hours.setText("");
-                    Date.setText("");
-                    ClientName.setText("");
+                        Hours.setText("");
+                        Date.setText("");
+                        ClientName.setText("");
+                        clientIDText.setText("");
+                    } else if (listenServer.equals("n")) {
+                        success.setText("Request Denied");
+                    }
                 } else {
                     success.setText("Please fill out all fields.");
                 }
             }
         });
 
-        userInfoButton.setBounds(250, 165, 80, 25);
+        userInfoButton.setBounds(250, 200, 80, 25);
         userPanel.add(userInfoButton);
 
         ownerInfoButton = new JButton(new AbstractAction("Submit") {
             @Override
             public void actionPerformed(ActionEvent e) {
+
                 int min = 1000;
                 int max = 9999;
                 int i = (int) Math.floor(Math.random() * (max - min + 1) + min);
@@ -482,39 +558,75 @@ public class GUIWork implements ActionListener {
                 LocalDateTime now1 = LocalDateTime.now();
                 String DateTimer1 = (dtf1.format(now1));
 
-                if (ownerName.length() > 0 && carMake.length() > 0 && carModel.length() > 0 &&
-                        carYear.length() > 0 && carLocation.length() > 0 && residencyTime.length() > 0) {
-                    ownerSuccess.setText("Successfully registered. " + DateTimer1);
-                    try {
+                if (ownerName.length() > 0 && carMake.length() > 0 && carModel.length() > 0 && carYear.length() > 0
+                        && carLocation.length() > 0 && residencyTime.length() > 0) {
+                    if (ownerName.length() > 0 && carMake.length() > 0 && carModel.length() > 0 && carYear.length() > 0
+                            && carLocation.length() > 0 && residencyTime.length() > 0) {
+                        try {
+                            outputStream.writeUTF(ownerName + " " + s + " " + carMake + " " + carModel + " " + carYear
+                                    + " " + carLocation + " " + residencyTime + "" + DateTimer1);
+                            try {
+                                listenServer = inputStream.readUTF();
+                                listenServer.toString();
+                                if (listenServer.equals("y")) {
+                                    try {
+                                        BufferedWriter test;
+                                        System.out.println("Buffered Writer start writing");
+                                        test = new BufferedWriter(new FileWriter(
+                                                "C:\\Users\\Hong Zhao\\eclipse-workspace\\CUS1166-Project\\OwnerInfo.txt",
+                                                true));
+                                        test.append("\n");
+                                        test.append("Owner name: " + ownerName + "\n");
+                                        test.append("Owner ID: " + s + "\n");
+                                        test.append("Car Make: " + carMake + "\n");
+                                        test.append("Car Model: " + carModel + "\n");
+                                        test.append("Car Year: " + carYear + "\n");
+                                        test.append("Manufactured Location: " + carLocation + "\n");
+                                        test.append("Residency Time: " + residencyTime + "\n");
+                                        test.append("Registered Successfully: " + DateTimer1 + "\n");
+                                        test.close();
+                                        System.out.println("Written successfully");
 
-                        BufferedWriter test;
-                        System.out.println("Buffered Writer start writing");
-                        test = new BufferedWriter(new FileWriter("OwnerInfo.txt", true));
-                        test.append("\n");
-                        test.append("Owner name: " + ownerName + "\n");
-                        test.append("Owner ID: " + s + "\n");
-                        test.append("Car Make: " + carMake + "\n");
-                        test.append("Car Model: " + carModel + "\n");
-                        test.append("Car Year: " + carYear + "\n");
-                        test.append("Manufactured Location: " + carLocation + "\n");
-                        test.append("Residency Time: " + residencyTime + "\n");
-                        test.append("Registered Successfully: " + DateTimer1 + "\n");
-                        test.close();
-                        System.out.println("Written successfully");
-                        outputStream.writeUTF(ownerName + " " + s + " " + carMake + " " + carModel + " " + carYear + " "
-                                + carLocation + " " + residencyTime + "" + DateTimer1);
-                    } catch (IOException ex) {
-                        ex.printStackTrace();
+                                        // outputStream.writeUTF(ownerName + " " + s + " " + carMake + " " + carModel +
+                                        // " " + carYear + " "+ carLocation + " " + residencyTime + "" + DateTimer1);
+                                        name.setText("");
+                                        make.setText("");
+                                        model.setText("");
+                                        year.setText("");
+                                        location.setText("");
+                                        Time.setText("");
+                                        ownerSuccess.setText("Registered successful at " + DateTimer1);
+                                    } catch (IOException ex) {
+                                        ex.printStackTrace();
+                                    }
+
+                                } else
+
+                                if (listenServer.equals("n")) {
+                                    ownerSuccess.setText("Request denied");
+                                    name.setText("");
+                                    make.setText("");
+                                    model.setText("");
+                                    year.setText("");
+                                    location.setText("");
+                                    Time.setText("");
+                                }
+
+                            } catch (IOException e2) {
+                                // TODO Auto-generated catch block
+                                e2.printStackTrace();
+                            }
+
+                        } catch (IOException e1) {
+                            // TODO Auto-generated catch block
+                            e1.printStackTrace();
+                        }
+
                     }
 
-                    name.setText("");
-                    make.setText("");
-                    model.setText("");
-                    year.setText("");
-                    location.setText("");
-                    Time.setText("");
-                } else {
-                    ownerSuccess.setText("Please fill out all the fields.");
+                    else {
+                        ownerSuccess.setText("Please fill out all the fields.");
+                    }
                 }
             }
         });
@@ -524,8 +636,17 @@ public class GUIWork implements ActionListener {
         computeCompletionTime = new JButton(new AbstractAction("Completion time") {
             @Override
             public void actionPerformed(ActionEvent e) {
-                File file = new File("C:\\Users\\Jonat\\Downloads\\GUI-branchTest_2\\GUI-branchTest\\ClientInfo.txt");
+                File file = new File("C:\\Users\\Hong Zhao\\eclipse-workspace\\CUS1166-Project\\ClientInfo.txt");
                 String data;
+                integerData = 0;
+                jobDurationList.clear();
+                completionTime = 0;
+                idValueCount = 0;
+                idList.clear();
+                totalDuration = 0;
+                timeModel.setRowCount(0);
+                timeModel.fireTableDataChanged();
+
                 try {
                     Scanner sc = new Scanner(file);
 
@@ -555,9 +676,10 @@ public class GUIWork implements ActionListener {
                     }
 
                     for (int j = 0; j < idList.size(); j++) {
-                        System.out.print(" Job ID: " + idList.get(j) + " finishes at");
+                        valueRow[0] = idList.get(j);
                         totalDuration += jobDurationList.get(j);
-                        System.out.print(" Duration: " + totalDuration + " hours " + "\n");
+                        valueRow[1] = totalDuration;
+                        timeModel.addRow(valueRow);
                     }
                     idScan.close();
                 } catch (FileNotFoundException y) {
@@ -566,7 +688,7 @@ public class GUIWork implements ActionListener {
             }
         });
 
-        computeCompletionTime.setBounds(250, 350, 80, 25); // 250,350,80,25 , 250,350,150,25
+        computeCompletionTime.setBounds(348, 5, 145, 25); // 250,350,80,25 , 250,350,150,25
         cloudPanel.add(computeCompletionTime);
 
         adminButton = new JButton(new AbstractAction("Cloud Controller") {
