@@ -524,31 +524,10 @@ public class GUIWork implements ActionListener {
                             System.out.println("Written successfully");
                             success.setText("Registered successful at " + dateTimer);
 
-                            try {
-                                // System.out.print("sql start");
-                                // declares a connection to your database
-                                connection = DriverManager.getConnection(url, username, password);
-                                // creates an insert query
-                                String sql = "INSERT INTO jobrequests"
-                                        + "(clientID , name , jobDuration , jobDeadline , requestTime)" + "VALUES ("
-                                        + idValueCount + ", '" + name + "', '" + time + "', '" + dueDate + "', '"
-                                        + dateTimer + "')";
-                                // establishes the connection session
-                                Statement statement = connection.createStatement();
-                                // executes the query
-                                int row = statement.executeUpdate(sql);
-                                // the return value is the indication of success or failure of the query
-                                // execution
-                                if (row > 0)
-                                    System.out.println("Data was inserted!");
-                                // System.out.print("sql end");
-                                connection.close();
-
-                            } catch (SQLException f) {
-                                System.out.print("SQL failure");
-                                f.getMessage();
-
-                            }
+                            sendToDatabase("INSERT INTO jobrequests"
+                                    + "(clientID , name , jobDuration , jobDeadline , requestTime)" + "VALUES ("
+                                    + idValueCount + ", '" + name + "', '" + time + "', '" + dueDate + "', '"
+                                    + dateTimer + "')");
                         }
 
                         catch (IOException ex) {
@@ -629,32 +608,10 @@ public class GUIWork implements ActionListener {
                                         Time.setText("");
                                         ownerSuccess.setText("Registered successful at " + DateTimer1);
 
-                                        try {
-                                            // System.out.print("sql start");
-                                            // declares a connection to your database
-                                            connection = DriverManager.getConnection(url, username, password);
-                                            // creates an insert query
-                                            String sql = "INSERT INTO cars"
-                                                    + "(carMake , carModel , carYear , carLocation , status ,  ownerName , ownerID)"
-                                                    + "VALUES ('" + carMake + "', '" + carModel + "', '" + carYear
-                                                    + "', '" + carLocation + "', 'available',  '" + ownerName + "', '"
-                                                    + s + "')";
-                                            // establishes the connection session
-                                            Statement statement = connection.createStatement();
-                                            // executes the query
-                                            int row = statement.executeUpdate(sql);
-                                            // the return value is the indication of success or failure of the query
-                                            // execution
-                                            if (row > 0)
-                                                System.out.println("Data was inserted!");
-                                            // System.out.print("sql end");
-                                            connection.close();
-
-                                        } catch (SQLException f) {
-                                            System.out.print("sql failure");
-                                            f.getMessage();
-
-                                        }
+                                        sendToDatabase("INSERT INTO cars"
+                                                + "(carMake , carModel , carYear , carLocation , status ,  ownerName , ownerID)"
+                                                + "VALUES ('" + carMake + "', '" + carModel + "', '" + carYear + "', '"
+                                                + carLocation + "', 'available',  '" + ownerName + "', '" + s + "')");
 
                                     } catch (IOException ex) {
                                         ex.printStackTrace();
@@ -793,5 +750,30 @@ public class GUIWork implements ActionListener {
     @Override
     public void actionPerformed(ActionEvent e) {
 
+    }
+
+    public static void sendToDatabase(String sqlCommand) {
+        try {
+            // System.out.print("sql start");
+            // declares a connection to your database
+            connection = DriverManager.getConnection(url, username, password);
+            // creates an insert query
+            String sql = sqlCommand;
+            // establishes the connection session
+            Statement statement = connection.createStatement();
+            // executes the query
+            int row = statement.executeUpdate(sql);
+            // the return value is the indication of success or failure of the query
+            // execution
+            if (row > 0)
+                System.out.println("Data was inserted!");
+            // System.out.print("sql end");
+            connection.close();
+
+        } catch (SQLException f) {
+            System.out.print("sql failure");
+            f.getMessage();
+
+        }
     }
 }
