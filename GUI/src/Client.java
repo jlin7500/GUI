@@ -4,7 +4,7 @@ public class Client extends User {
 
 	private ArrayList<Job> jobs;
 
-	public Client(String newName, String newId, int newPhoneNumber) {
+	public Client(String newName, int newId, int newPhoneNumber) {
 		super(newName, newId, newPhoneNumber);
 	}
 

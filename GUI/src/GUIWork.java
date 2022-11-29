@@ -1,4 +1,5 @@
 import java.io.*;
+
 import java.lang.reflect.Array;
 import java.sql.ClientInfoStatus;
 
@@ -22,8 +23,13 @@ import java.util.Date;
 import java.util.Scanner;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.sql.*;
 
 public class GUIWork implements ActionListener {
+    static Connection connection = null;
+    static String url = "jdbc:mysql://localhost:3306/vc3?useTimezone=true&serverTimezone=UTC";
+    static String username = "root";
+    static String password = "hxW3&pol12$&KltfQRY#414VvuUW9";
     static int pressed;
     static String listenServer = "listen";
     static ServerSocket serverSocket;
@@ -470,7 +476,7 @@ public class GUIWork implements ActionListener {
 
                 DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm:ss");
                 LocalDateTime now = LocalDateTime.now();
-                String DateTimer = (dtf.format(now));
+                String dateTimer = (dtf.format(now));
 
                 if (time.length() > 0 && dueDate.length() > 0 && name.length() > 0) {
 
@@ -493,7 +499,7 @@ public class GUIWork implements ActionListener {
                             BufferedWriter test;
                             System.out.println("Start writing");
                             test = new BufferedWriter(new FileWriter(
-                                    "C:\\Users\\Hong Zhao\\eclipse-workspace\\CUS1166-Project\\ClientInfo.txt", true));
+                                    "C:\\Users\\chris\\eclipse-workspace\\GUIWork\\ClientInfo.txt", true));
                             test.append("\n");
                             test.append("Name: " + name + "\n");
                             test.append("Client id: " + clientIDValue + "\n");
@@ -513,10 +519,36 @@ public class GUIWork implements ActionListener {
                             }
                             test.append("Job Duration: " + time + "\n");
                             test.append("Job Deadline: " + dueDate + "\n");
-                            test.append("Registration time: " + DateTimer + "\n");
+                            test.append("Registration time: " + dateTimer + "\n");
                             test.close();
                             System.out.println("Written successfully");
-                            success.setText("Registered successful at " + DateTimer);
+                            success.setText("Registered successful at " + dateTimer);
+
+                            try {
+                                // System.out.print("sql start");
+                                // declares a connection to your database
+                                connection = DriverManager.getConnection(url, username, password);
+                                // creates an insert query
+                                String sql = "INSERT INTO jobrequests"
+                                        + "(clientID , name , jobDuration , jobDeadline , requestTime)" + "VALUES ("
+                                        + idValueCount + ", '" + name + "', '" + time + "', '" + dueDate + "', '"
+                                        + dateTimer + "')";
+                                // establishes the connection session
+                                Statement statement = connection.createStatement();
+                                // executes the query
+                                int row = statement.executeUpdate(sql);
+                                // the return value is the indication of success or failure of the query
+                                // execution
+                                if (row > 0)
+                                    System.out.println("Data was inserted!");
+                                // System.out.print("sql end");
+                                connection.close();
+
+                            } catch (SQLException f) {
+                                System.out.print("SQL failure");
+                                f.getMessage();
+
+                            }
                         }
 
                         catch (IOException ex) {
@@ -527,6 +559,7 @@ public class GUIWork implements ActionListener {
                         Date.setText("");
                         ClientName.setText("");
                         clientIDText.setText("");
+
                     } else if (listenServer.equals("n")) {
                         success.setText("Request Denied");
                     }
@@ -573,8 +606,7 @@ public class GUIWork implements ActionListener {
                                         BufferedWriter test;
                                         System.out.println("Buffered Writer start writing");
                                         test = new BufferedWriter(new FileWriter(
-                                                "C:\\Users\\Hong Zhao\\eclipse-workspace\\CUS1166-Project\\OwnerInfo.txt",
-                                                true));
+                                                "C:\\Users\\chris\\eclipse-workspace\\GUIWork\\ClientInfo.txt", true));
                                         test.append("\n");
                                         test.append("Owner name: " + ownerName + "\n");
                                         test.append("Owner ID: " + s + "\n");
@@ -596,6 +628,34 @@ public class GUIWork implements ActionListener {
                                         location.setText("");
                                         Time.setText("");
                                         ownerSuccess.setText("Registered successful at " + DateTimer1);
+
+                                        try {
+                                            // System.out.print("sql start");
+                                            // declares a connection to your database
+                                            connection = DriverManager.getConnection(url, username, password);
+                                            // creates an insert query
+                                            String sql = "INSERT INTO cars"
+                                                    + "(carMake , carModel , carYear , carLocation , status ,  ownerName , ownerID)"
+                                                    + "VALUES ('" + carMake + "', '" + carModel + "', '" + carYear
+                                                    + "', '" + carLocation + "', 'available',  '" + ownerName + "', '"
+                                                    + s + "')";
+                                            // establishes the connection session
+                                            Statement statement = connection.createStatement();
+                                            // executes the query
+                                            int row = statement.executeUpdate(sql);
+                                            // the return value is the indication of success or failure of the query
+                                            // execution
+                                            if (row > 0)
+                                                System.out.println("Data was inserted!");
+                                            // System.out.print("sql end");
+                                            connection.close();
+
+                                        } catch (SQLException f) {
+                                            System.out.print("sql failure");
+                                            f.getMessage();
+
+                                        }
+
                                     } catch (IOException ex) {
                                         ex.printStackTrace();
                                     }

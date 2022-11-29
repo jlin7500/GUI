@@ -2,7 +2,7 @@
 public class Job {
 
 	private String assignedClient;
-	private String assignedClientId;
+	private int assignedClientId;
 	private String deadline;
 	private String duration;
 	private String status;
@@ -10,10 +10,9 @@ public class Job {
 
 	public Job() {
 		status = "Requested";
-
 	}
 
-	public void addNewClient(String newClient, String newClientId) {
+	public void addNewClient(String newClient, int newClientId) {
 		assignedClient = newClient;
 		assignedClientId = newClientId;
 	}
