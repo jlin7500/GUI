@@ -27,10 +27,10 @@ public class VehicalController {
 		ArrayList<Job> requestList = CURRENT_MODEL.JOB_REQUESTS;
 		String output = "";
 		if (requestList.size() == 0)
-			output = "No Current Job Requests";
+			output = "No Current Job Requests<br/>";
 		else {
 			for (int i = 0; requestList.size() > i; i++) {
-				output = output + requestList.get(i).getRequestAsString() + "\n";
+				output = output + requestList.get(i).getRequestAsString() + "<br/>";
 			}
 		}
 		return output;
@@ -40,10 +40,10 @@ public class VehicalController {
 		ArrayList<Car> carList = CURRENT_MODEL.CAR_LIST;
 		String output = "";
 		if (carList.size() == 0)
-			output = "No Cars Available";
+			output = "No Cars Available<br/>";
 		else {
 			for (int i = 0; carList.size() > i; i++) {
-				output = output + carList.get(i).getCarAsString() + "\n";
+				output = output + carList.get(i).getCarAsString() + "<br/>";
 			}
 		}
 		return output;
@@ -53,18 +53,19 @@ public class VehicalController {
 		ArrayList<Job> jobList = CURRENT_MODEL.CURRENT_JOBS;
 		String output = "";
 		if (jobList.size() == 0)
-			output = "No Current Ongoing Jobs";
+			output = "No Current Ongoing Jobs<br/>";
 		else {
 			for (int i = 0; jobList.size() > i; i++) {
-				output = output + jobList.get(i).getJobAsString() + "\n";
+				output = output + jobList.get(i).getJobAsString() + "<br/>";
 			}
 		}
 		return output;
 	}
 
 	public static String getVCInfo() {
-		return "JOB REQUESTS: \n" + CURRENT_MODEL.getAllJobRequests() + "\nLIST OF AVAILABLE CARS: \n"
-				+ CURRENT_MODEL.getListOfAvailableCars() + "\nCURRENT JOBS: \n" + CURRENT_MODEL.getAllJobRequests();
+		return "<html>JOB REQUESTS: <br/>" + CURRENT_MODEL.getAllJobRequests() + "\nLIST OF AVAILABLE CARS: <br/>"
+				+ CURRENT_MODEL.getListOfAvailableCars() + "\nCURRENT JOBS: <br/>" + CURRENT_MODEL.getAllJobRequests()
+				+ "</html>";
 	}
 
 	public static void addNewJobRequest(Job request) {
