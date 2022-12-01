@@ -178,7 +178,8 @@ public class GUIWork implements ActionListener {
         cloudFrame.add(cloudPanel);
 
         // Main GUI images
-        BufferedImage img = ImageIO.read(new File("C:\\Users\\Jonat\\Downloads\\GUI-main (2)\\GUI-main\\GUI\\Client.png"));
+        BufferedImage img = ImageIO
+                .read(new File("C:\\Users\\Jonat\\Downloads\\GUI-main (2)\\GUI-main\\GUI\\Client.png"));
         Image image = img.getScaledInstance(71, 71, Image.SCALE_SMOOTH);
         ImageIcon icon = new ImageIcon(image);
         JLabel pic = new JLabel();
@@ -187,7 +188,8 @@ public class GUIWork implements ActionListener {
         panel.add(pic);
 
         // GUI image 2
-        BufferedImage img2 = ImageIO.read(new File("C:\\Users\\Jonat\\Downloads\\GUI-main (2)\\GUI-main\\GUI\\Owner.png"));
+        BufferedImage img2 = ImageIO
+                .read(new File("C:\\Users\\Jonat\\Downloads\\GUI-main (2)\\GUI-main\\GUI\\Owner.png"));
         Image image2 = img2.getScaledInstance(71, 71, Image.SCALE_SMOOTH);
         ImageIcon icon2 = new ImageIcon(image2);
         JLabel pic2 = new JLabel();
@@ -196,7 +198,8 @@ public class GUIWork implements ActionListener {
         panel.add(pic2);
 
         // GUI image 3
-        BufferedImage img3 = ImageIO.read(new File("C:\\Users\\Jonat\\Downloads\\GUI-main (2)\\GUI-main\\GUI\\VCcontroller.png"));
+        BufferedImage img3 = ImageIO
+                .read(new File("C:\\Users\\Jonat\\Downloads\\GUI-main (2)\\GUI-main\\GUI\\VCcontroller.png"));
         Image image3 = img3.getScaledInstance(117, 117, Image.SCALE_SMOOTH);
         ImageIcon icon3 = new ImageIcon(image3);
         JLabel pic3 = new JLabel();
@@ -205,7 +208,8 @@ public class GUIWork implements ActionListener {
         panel.add(pic3);
 
         // GUI image 4
-        BufferedImage img4 = ImageIO.read(new File("C:\\Users\\Jonat\\Downloads\\GUI-main (2)\\GUI-main\\GUI\\cloud.png"));
+        BufferedImage img4 = ImageIO
+                .read(new File("C:\\Users\\Jonat\\Downloads\\GUI-main (2)\\GUI-main\\GUI\\cloud.png"));
         Image image4 = img4.getScaledInstance(100, 100, Image.SCALE_SMOOTH);
         ImageIcon icon4 = new ImageIcon(image4);
         JLabel pic4 = new JLabel();
@@ -302,13 +306,12 @@ public class GUIWork implements ActionListener {
         Time.setBounds(200, 250, 165, 25);
         ownerPanel.add(Time);
 
-       //Cloud stuff acknowledge
-       JLabel jobInfo = new JLabel("");
-       jobInfo.setBounds(50,400,400,250);
-       cloudPanel.add(jobInfo);
-       
-       
-       // Success message
+        // Cloud stuff acknowledge
+        JLabel jobInfo = new JLabel("");
+        jobInfo.setBounds(50, 400, 400, 250);
+        cloudPanel.add(jobInfo);
+
+        // Success message
         ownerSuccess = new JLabel("");
         ownerSuccess.setBounds(210, 250, 350, 250);
         ownerPanel.add(ownerSuccess);
@@ -489,7 +492,8 @@ public class GUIWork implements ActionListener {
 
                     //
                     try {
-                        outputStream.writeUTF("ClientRequest;"+name + ";" + clientIDValue + ";" + time + ";" + dueDate);
+                        outputStream
+                                .writeUTF("ClientRequest;" + name + ";" + clientIDValue + ";" + time + ";" + dueDate);
                     } catch (IOException e1) {
                         // TODO Auto-generated catch block
                         e1.printStackTrace();
@@ -506,7 +510,8 @@ public class GUIWork implements ActionListener {
                             BufferedWriter test;
                             System.out.println("Start writing");
                             test = new BufferedWriter(new FileWriter(
-                                    "C:\\Users\\Jonat\\Downloads\\GUI-main (2)\\GUI-main\\GUI\\src\\ClientInfo.txt", true));
+                                    "C:\\Users\\Jonat\\Downloads\\GUI-main (2)\\GUI-main\\GUI\\src\\ClientInfo.txt",
+                                    true));
                             test.append("\n");
                             test.append("Name: " + name + "\n");
                             test.append("Client id: " + clientIDValue + "\n");
@@ -592,7 +597,8 @@ public class GUIWork implements ActionListener {
                                         BufferedWriter test;
                                         System.out.println("Buffered Writer start writing");
                                         test = new BufferedWriter(new FileWriter(
-                                                "C:\\Users\\Jonat\\Downloads\\GUI-main (2)\\GUI-main\\GUI\\src\\ClientInfo.txt", true));
+                                                "C:\\Users\\Jonat\\Downloads\\GUI-main (2)\\GUI-main\\GUI\\src\\ClientInfo.txt",
+                                                true));
                                         test.append("\n");
                                         test.append("Owner name: " + ownerName + "\n");
                                         test.append("Owner ID: " + s + "\n");
@@ -605,8 +611,10 @@ public class GUIWork implements ActionListener {
                                         test.close();
                                         System.out.println("Written successfully");
 
-                                        // outputStream.writeUTF(ownerName + " " + s + " " + carMake + " " + carModel +
-                                        // " " + carYear + " "+ carLocation + " " + residencyTime + "" + DateTimer1);
+                                        outputStream.writeUTF("OwnerCarRegister;" + ownerName + ";" + s + ";" + carMake
+                                                + ";" + carModel +
+                                                " " + carYear + " " + carLocation + ";" + residencyTime + ";"
+                                                + DateTimer1);
                                         name.setText("");
                                         make.setText("");
                                         model.setText("");
@@ -660,7 +668,7 @@ public class GUIWork implements ActionListener {
         computeCompletionTime = new JButton(new AbstractAction("Completion time") {
             @Override
             public void actionPerformed(ActionEvent e) {
-                
+
                 try {
                     outputStream.writeUTF("AdminHome");
                 } catch (IOException e1) {
@@ -675,7 +683,7 @@ public class GUIWork implements ActionListener {
                     e1.printStackTrace();
                 }
 
-                //---------------------------
+                // ---------------------------
 
                 File file = new File("C:\\Users\\Jonat\\Downloads\\GUI-main (2)\\GUI-main\\GUI\\src\\ClientInfo.txt");
                 String data;

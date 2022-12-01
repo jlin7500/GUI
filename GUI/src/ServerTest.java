@@ -44,19 +44,19 @@ public class ServerTest {
 
                 switch (inputData[0]) {
 
-                    case "Owner":
+                    case "OwnerCarRegister":
 
                         Car newCar = new Car(inputData[1], inputData[2], inputData[3], inputData[4]);
                         vc.addNewCar(newCar);
 
                         break;
 
-                    case "Client":
+                    case "ClientRequest":
 
                         Job jobRequest = new Job();
                         jobRequest.addNewClient(inputData[1], Integer.parseInt(inputData[2]));
-                        jobRequest.addNewDuration(inputData[3]);
-                        jobRequest.addNewDeadline(inputData[4]);
+                        jobRequest.addNewDuration(Integer.parseInt(inputData[3]));
+                        jobRequest.addNewDeadline(Integer.parseInt(inputData[4]));
 
                         vc.addNewJobRequest(jobRequest);
 
@@ -70,8 +70,8 @@ public class ServerTest {
 
                         Job acceptedJob = new Job();
                         acceptedJob.addNewClient(inputData[1], Integer.parseInt(inputData[2]));
-                        acceptedJob.addNewDuration(inputData[3]);
-                        acceptedJob.addNewDeadline(inputData[4]);
+                        acceptedJob.addNewDuration(Integer.parseInt(inputData[3]));
+                        acceptedJob.addNewDeadline(Integer.parseInt(inputData[4]));
                         Car assignedCar = new Car(inputData[5], inputData[6], inputData[7], inputData[8]);
                         vc.approveNewJob(acceptedJob, assignedCar);
                         output = "Job has been Approved";
@@ -80,8 +80,8 @@ public class ServerTest {
                     case "AdminDeny":
                         Job deniedJob = new Job();
                         deniedJob.addNewClient(inputData[1], Integer.parseInt(inputData[2]));
-                        deniedJob.addNewDuration(inputData[3]);
-                        deniedJob.addNewDeadline(inputData[4]);
+                        deniedJob.addNewDuration(Integer.parseInt(inputData[3]));
+                        deniedJob.addNewDeadline(Integer.parseInt(inputData[4]));
                         vc.denyNewJob(deniedJob);
                         output = "Job has been Denied";
                         break;

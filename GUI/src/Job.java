@@ -3,13 +3,14 @@ public class Job {
 
 	private String assignedClient;
 	private int assignedClientId;
-	private String deadline;
-	private String duration;
+	private int deadline;
+	private int duration;
 	private String status;
 	private Car assignedCar;
 
 	public Job() {
 		status = "Requested";
+
 	}
 
 	public void addNewClient(String newClient, int newClientId) {
@@ -17,11 +18,11 @@ public class Job {
 		assignedClientId = newClientId;
 	}
 
-	public void addNewDeadline(String newDeadline) {
+	public void addNewDeadline(int newDeadline) {
 		deadline = newDeadline;
 	}
 
-	public void addNewDuration(String newDuration) {
+	public void addNewDuration(int newDuration) {
 		duration = newDuration;
 	}
 
