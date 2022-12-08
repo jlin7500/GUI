@@ -42,12 +42,12 @@ public class Server {
                 while (!response.equals("y") || !response.equals("n")) {
                     if (response.toLowerCase().equals("y")) {
                         System.out.println("Information accepted");
-                        serverOutput = "messageAccepted";
+                        serverOutput = "y";
                         numOfMessagesSaved++;
                         break;
                     } else if (response.toLowerCase().equals("n")) {
                         System.out.println("Information rejected");
-                        serverOutput = "messageReject";
+                        serverOutput = "n";
                         break;
                     } else {
                         System.out.println("That is not a valid response. Please try again.");
@@ -55,7 +55,7 @@ public class Server {
                     }
                 }
                 getMessageSavedCount();
-                // outputStream.writeUTF(serverOutput);
+                outputStream.writeUTF(serverOutput);
             }
         } catch (Exception e) {
             e.printStackTrace();

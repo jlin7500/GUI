@@ -64,8 +64,7 @@ public class VehicalController {
 
 	public static String getVCInfo() {
 		return "<html>JOB REQUESTS: <br/>" + CURRENT_MODEL.getAllJobRequests() + "\nLIST OF AVAILABLE CARS: <br/>"
-				+ CURRENT_MODEL.getListOfAvailableCars() + "\nCURRENT JOBS: <br/>" + CURRENT_MODEL.getAllJobRequests()
-				+ "</html>";
+				+ CURRENT_MODEL.getListOfAvailableCars() + "\nCURRENT JOBS: <br/>" + CURRENT_MODEL.getAllJobRequests()+"</html>";
 	}
 
 	public static void addNewJobRequest(Job request) {

@@ -4,7 +4,7 @@ public class Owner extends User{
 	
 	private ArrayList<Registration> registrations;
 	
-	public Owner(String newName, String newId, int newPhoneNumber, String newResidencyTime, Car newCar) {
+	public Owner(String newName, int newId, int newPhoneNumber, String newResidencyTime, Car newCar) {
 		
 		super(newName, newId, newPhoneNumber);
 		registerNewCar(newCar, newResidencyTime);
