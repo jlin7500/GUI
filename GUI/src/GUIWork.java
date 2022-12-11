@@ -27,7 +27,7 @@ import java.sql.*;
 
 public class GUIWork implements ActionListener {
     static Connection connection = null;
-    static String projectUrl = "C:\\Users\\chris\\eclipse-workspace\\GUIWork\\";
+    static String projectUrl = "C:\\Users\\Hong Zhao\\eclipse-workspace\\Final Product\\";
     static String url = "jdbc:mysql://localhost:3306/vc3?useTimezone=true&serverTimezone=UTC";
     static String username = "root";
     static String password = "hxW3&pol12$&KltfQRY#414VvuUW9";
@@ -88,8 +88,8 @@ public class GUIWork implements ActionListener {
     private static JButton viewJobInfo;
     private static JButton acceptJobPortal;
     private static JButton denyJobPortal;
-    
-    //JobForm
+
+    // JobForm
     private static JButton acceptJob;
     private static JButton denyJob;
     private static JButton acceptBack;
@@ -107,7 +107,7 @@ public class GUIWork implements ActionListener {
     private static JButton clientClear;
     private static JLabel clientID;
     private static JTextField clientIDText;
-    
+
     // Owner
     private static JLabel welcomeMessage;
     private static JLabel ownerName;
@@ -125,32 +125,33 @@ public class GUIWork implements ActionListener {
     private static JTextField Time;
     private static JButton submit;
     private static JButton ownerClear;
-    
+
     private static JFrame setBasicFrame(JFrame frame, int sizeX, int sizeY, boolean visability) {
-    	frame.setSize(sizeX, sizeY);
-    	frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-    	frame.setVisible(visability);
-		return frame;
+        frame.setSize(sizeX, sizeY);
+        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        frame.setVisible(visability);
+        return frame;
     }
-    
+
     private static JFrame setBasicFrame2(JFrame frame, int sizeX, int sizeY, boolean visability) {
-    	frame.setSize(sizeX, sizeY);
-    	frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-    	frame.setVisible(visability);
-    	frame.setLocationRelativeTo(null);
+        frame.setSize(sizeX, sizeY);
+        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        frame.setVisible(visability);
+        frame.setLocationRelativeTo(null);
         frame.getContentPane().layout();
-		return frame;
+        return frame;
     }
-    
-    private static JLabel setBackground(JLabel panel, JFrame frame, String imageFileName){
-    	ImageIcon img9 = new ImageIcon(projectUrl+imageFileName);//"Background6.png"
+
+    private static JLabel setBackground(JLabel panel, JFrame frame, String imageFileName) {
+        ImageIcon img9 = new ImageIcon(projectUrl + imageFileName);// "Background6.png"
         panel = new JLabel("", img9, JLabel.CENTER);
         frame.add(panel);
-		return panel;
+        return panel;
     }
-    
-    private static void setImage( JLabel panel, int imageScaleX, int imageScaleY, int UpBoundX, int UpBoundY, int LowBoundX, int LowBoundY, String imageFileName) throws IOException{
-    	BufferedImage img4 = ImageIO.read(new File(projectUrl+imageFileName));
+
+    private static void setImage(JLabel panel, int imageScaleX, int imageScaleY, int UpBoundX, int UpBoundY,
+            int LowBoundX, int LowBoundY, String imageFileName) throws IOException {
+        BufferedImage img4 = ImageIO.read(new File(projectUrl + imageFileName));
         Image image4 = img4.getScaledInstance(imageScaleX, imageScaleY, Image.SCALE_SMOOTH);
         ImageIcon icon4 = new ImageIcon(image4);
         JLabel pic4 = new JLabel();
@@ -164,38 +165,53 @@ public class GUIWork implements ActionListener {
         socket = new Socket("localhost", 3000);
         inputStream = new DataInputStream(socket.getInputStream());
         outputStream = new DataOutputStream(socket.getOutputStream());
-        
+
         JFrame userFrame = setBasicFrame(new JFrame("Welcome Client !"), 500, 500, false);// client title section
         JFrame ownerFrame = setBasicFrame(new JFrame("Welcome Owner !"), 500, 500, false); // owner title section
         JFrame frame = setBasicFrame(new JFrame("Vehicular GUI"), 600, 600, true); // Home GUI title
         JFrame adminFrame = setBasicFrame(new JFrame("Cloud Controller"), 500, 500, false);
-        
-        JFrame jobAcceptFrame = setBasicFrame2(new JFrame("Job Request Accept Form"), 500, 500, false);//Admin Job Request Accept Frame
-        JFrame jobDenyFrame = setBasicFrame2(new JFrame("Job Request Deny Form"), 500, 500, false); //Admin Job Request Denial Frame
-        JFrame cloudFrame = setBasicFrame2(new JFrame("Vehicle Controller Functions"), 700, 625, false);// Cloud Frame with Table
+
+        JFrame jobAcceptFrame = setBasicFrame2(new JFrame("Job Request Accept Form"), 500, 500, false);// Admin Job
+                                                                                                       // Request Accept
+                                                                                                       // Frame
+        JFrame jobDenyFrame = setBasicFrame2(new JFrame("Job Request Deny Form"), 500, 500, false); // Admin Job Request
+                                                                                                    // Denial Frame
+        JFrame cloudFrame = setBasicFrame2(new JFrame("Vehicle Controller Functions"), 700, 625, false);// Cloud Frame
+                                                                                                        // with Table
 
         JLabel panel = setBackground(new JLabel(), frame, "background5.png"); // Background
         JLabel userPanel = setBackground(new JLabel(), userFrame, "background4.png"); // Background for client
         JLabel adminPanel = setBackground(new JLabel(), adminFrame, "background.png"); // Background for Admin
         JLabel ownerPanel = setBackground(new JLabel(), ownerFrame, "background6.png");// Background for Owner
         JLabel cloudPanel = setBackground(new JLabel(), cloudFrame, "background6.png");// Background for Cloud
+        JLabel acceptPanel = setBackground(new JLabel(), jobAcceptFrame, "background6.png"); // Background for Accept
+        JLabel denyPanel = setBackground(new JLabel(), jobDenyFrame, "background6.png"); // Background for Deny
 
-        setImage(panel, /*Image Scale*/ 71, 71, /*Bounds*/ 200, 145, 80, 100, "Client.png");// Main GUI images
+        setImage(panel, /* Image Scale */ 71, 71, /* Bounds */ 200, 145, 80, 100, "Client.png");// Main GUI images
         // (150,210,80,100) under client button
 
-        setImage(panel, /*Image Scale*/ 71, 71, /*Bounds*/ 320, 145, 80, 100, "Owner.png");// GUI image 2
+        setImage(panel, /* Image Scale */ 71, 71, /* Bounds */ 320, 145, 80, 100, "Owner.png");// GUI image 2
         // above owner button
 
-        setImage(panel, /*Image Scale*/ 117, 117, /*Bounds*/ 236, 255, 175, 125, "VCcontroller.png");// GUI image 3
+        setImage(panel, /* Image Scale */ 117, 117, /* Bounds */ 236, 255, 175, 125, "VCcontroller.png");// GUI image 3
         // above VC button
-        
-        setImage(panel, /*Image Scale*/ 100, 100, /*Bounds*/ 245, 0, 150, 150, "cloud.png");// GUI image 4
+
+        setImage(panel, /* Image Scale */ 100, 100, /* Bounds */ 245, 0, 150, 150, "cloud.png");// GUI image 4
         // Above the message
 
         // Table
         JTable timeTable = new JTable();
         Object[] column = { "Job ID", "Duration (hrs)" };
-        DefaultTableModel timeModel = new DefaultTableModel();
+        DefaultTableModel timeModel = new DefaultTableModel() {
+            @Override
+            public boolean isCellEditable(int row, int column) {
+                // False
+                return false;
+
+            }
+        }; // table non-editable
+
+        timeTable.setRowSelectionAllowed(false);
 
         timeModel.setColumnIdentifiers(column);
         timeTable.setModel(timeModel);
@@ -203,8 +219,6 @@ public class GUIWork implements ActionListener {
         timeTable.setBackground(Color.white);
         timeTable.setForeground(Color.black);
         timeTable.setGridColor(Color.gray);
-        timeTable.setSelectionBackground(Color.white);
-        timeTable.setSelectionForeground(Color.white);
         timeTable.setFont(new Font("Times New Roman", Font.PLAIN, 17)); // Change font
         timeTable.setRowHeight(30);
         timeTable.setAutoCreateRowSorter(true);
@@ -239,7 +253,7 @@ public class GUIWork implements ActionListener {
         vehicleInfo = new JLabel("Vehicle Information:");
         vehicleInfo.setBounds(10, 75, 150, 25);
         ownerPanel.add(vehicleInfo);
-        
+
         // Make
         carMake = new JLabel("Make of Car");
         carMake.setBounds(10, 110, 80, 25);
@@ -282,13 +296,12 @@ public class GUIWork implements ActionListener {
         Time.setBounds(200, 250, 165, 25);
         ownerPanel.add(Time);
 
-       //Cloud stuff acknowledge
-       JLabel jobInfo = new JLabel("");
-       jobInfo.setBounds(50,400,400,250);
-       cloudPanel.add(jobInfo);
-       
-       
-       // Success message
+        // Cloud stuff acknowledge
+        JLabel jobInfo = new JLabel("");
+        jobInfo.setBounds(50, 400, 400, 250);
+        cloudPanel.add(jobInfo);
+
+        // Success message
         ownerSuccess = new JLabel("");
         ownerSuccess.setBounds(210, 250, 350, 250);
         ownerPanel.add(ownerSuccess);
@@ -350,7 +363,31 @@ public class GUIWork implements ActionListener {
 
         cloudBack.setBounds(125, 5, 80, 25); // cloud back button
         cloudPanel.add(cloudBack);
-        
+
+        acceptBack = new JButton(new AbstractAction("Back") {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                jobAcceptFrame.dispose();
+                cloudFrame.setVisible(true);
+
+            }
+        });
+
+        acceptBack.setBounds(30, 300, 80, 25);// accept Back button
+        acceptPanel.add(acceptBack);
+
+        denyBack = new JButton(new AbstractAction("Back") {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                jobDenyFrame.dispose();
+                cloudFrame.setVisible(true);
+
+            }
+        });
+
+        denyBack.setBounds(30, 300, 80, 25);// deny back button
+        denyPanel.add(denyBack);
+
         // Welcome info
         Fillout = new JLabel("Please fill out the following information");
         Fillout.setBounds(10, 5, 300, 25);
@@ -468,14 +505,14 @@ public class GUIWork implements ActionListener {
 
                 if (time.length() > 0 && dueDate.length() > 0 && name.length() > 0) {
 
-                    
-                    listenServer = callServer("ClientRequest;"+name + ";" + clientIDValue + ";" + time + ";" + dueDate);
+                    listenServer = callServer(
+                            "ClientRequest;" + name + ";" + clientIDValue + ";" + time + ";" + dueDate);
                     listenServer.toString();
                     if (listenServer.equals("y")) {
                         try {
                             BufferedWriter test;
                             System.out.println("Start writing");
-                            test = new BufferedWriter(new FileWriter(projectUrl+"ClientInfo.txt", true));
+                            test = new BufferedWriter(new FileWriter(projectUrl + "ClientInfo.txt", true));
                             test.append("\n");
                             test.append("Name: " + name + "\n");
                             test.append("Client id: " + clientIDValue + "\n");
@@ -560,7 +597,7 @@ public class GUIWork implements ActionListener {
                                     try {
                                         BufferedWriter test;
                                         System.out.println("Buffered Writer start writing");
-                                        test = new BufferedWriter(new FileWriter(projectUrl+"ClientInfo.txt", true));
+                                        test = new BufferedWriter(new FileWriter(projectUrl + "ClientInfo.txt", true));
                                         test.append("\n");
                                         test.append("Owner name: " + ownerName + "\n");
                                         test.append("Owner ID: " + s + "\n");
@@ -573,8 +610,10 @@ public class GUIWork implements ActionListener {
                                         test.close();
                                         System.out.println("Written successfully");
 
-                                        outputStream.writeUTF("OwnerCarRegister;"+ownerName + ";" + s + ";" + carMake + ";" + carModel +
-                                        " " + carYear + " "+ carLocation + ";" + residencyTime + ";" + DateTimer1);
+                                        outputStream.writeUTF("OwnerCarRegister;" + ownerName + ";" + s + ";" + carMake
+                                                + ";" + carModel +
+                                                " " + carYear + " " + carLocation + ";" + residencyTime + ";"
+                                                + DateTimer1);
                                         name.setText("");
                                         make.setText("");
                                         model.setText("");
@@ -624,52 +663,52 @@ public class GUIWork implements ActionListener {
         });
         ownerInfoButton.setBounds(250, 300, 80, 25);
         ownerPanel.add(ownerInfoButton);
-        
+
         acceptJobPortal = new JButton(new AbstractAction("Accept a Job") {
 
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				cloudFrame.dispose();
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                cloudFrame.dispose();
                 jobAcceptFrame.setVisible(true);
                 String info = callServer("AdminRequests");
-                if(!info.equals("Could not connect to Server")) {
-                	makeRadiolist(info, "No Current Job Requests", jobAcceptFrame);
+                if (!info.equals("Could not connect to Server")) {
+                    makeRadiolist(info, "No Current Job Requests", jobAcceptFrame);
                 }
-                
+
                 info = callServer("AdminJobs");
-                if(!info.equals("Could not connect to Server")) {
-                	makeRadiolist(info, "No Cars Available", jobDenyFrame);
+                if (!info.equals("Could not connect to Server")) {
+                    makeRadiolist(info, "No Cars Available", jobDenyFrame);
                 }
-				
-			}
-        	
+
+            }
+
         });
         acceptJobPortal.setBounds(448, 355, 145, 25);
         cloudPanel.add(acceptJobPortal);
-        
+
         denyJobPortal = new JButton(new AbstractAction("Deny a Job") {
 
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				cloudFrame.dispose();
-				jobDenyFrame.setVisible(true);
-				
-			}
-        	
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                cloudFrame.dispose();
+                jobDenyFrame.setVisible(true);
+
+            }
+
         });
         denyJobPortal.setBounds(280, 355, 145, 25);
         cloudPanel.add(denyJobPortal);
-        
+
         viewJobInfo = new JButton(new AbstractAction("View Job Info") {
 
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				String info = callServer("AdminHome");
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                String info = callServer("AdminHome");
                 jobInfo.setText(info);
-			}
-        	
+            }
+
         });
-        
+
         viewJobInfo.setBounds(400, 5, 145, 25);
         cloudPanel.add(viewJobInfo);
 
@@ -677,7 +716,7 @@ public class GUIWork implements ActionListener {
             @Override
             public void actionPerformed(ActionEvent e) {
 
-                File file = new File(projectUrl+"ClientInfo.txt");
+                File file = new File(projectUrl + "ClientInfo.txt");
                 String data;
                 integerData = 0;
                 jobDurationList.clear();
@@ -687,8 +726,7 @@ public class GUIWork implements ActionListener {
                 totalDuration = 0;
                 timeModel.setRowCount(0);
                 timeModel.fireTableDataChanged();
-                
-                /*
+
                 try {
                     Scanner sc = new Scanner(file);
 
@@ -722,13 +760,13 @@ public class GUIWork implements ActionListener {
                         totalDuration += jobDurationList.get(j);
                         valueRow[1] = totalDuration;
                         timeModel.addRow(valueRow);
-                        
+
                     }
                     idScan.close();
                 } catch (FileNotFoundException y) {
                     y.printStackTrace();
                 }
-                */
+
             }
 
         });
@@ -803,44 +841,42 @@ public class GUIWork implements ActionListener {
             f.getMessage();
 
         }
-        
-        
+
     }
-    
+
     private static String callServer(String serverInput) {
-    	String serverResponse = "Could not connect to Server";
-    	
-    	try {
+        String serverResponse = "Could not connect to Server";
+
+        try {
             outputStream.writeUTF(serverInput);
-            
+
             try {
-            	serverResponse = inputStream.readUTF();
-                
-                
+                serverResponse = inputStream.readUTF();
+
             } catch (IOException e1) {
                 // TODO Auto-generated catch block
                 e1.printStackTrace();
             }
-            
+
         } catch (IOException e1) {
             // TODO Auto-generated catch block
             e1.printStackTrace();
         }
-        
-    	return serverResponse;
+
+        return serverResponse;
     }
-    
+
     private static void makeRadiolist(String info, String emptyStatement, JFrame frame) {
-		
-		String[] infoArray = info.split("<br/>");
-		radioList = new JRadioButton[infoArray.length];
-		if(infoArray[0] != emptyStatement) {
-			for(int i = 0; i < infoArray.length; i++) {
-        	    radioList[i] = new JRadioButton(infoArray[i]);
-        	    radioList[i].setBounds(20,40+(i*40),100,40);   
-        	    frame.add(radioList[i]);
-        	}
-		}
-		else frame.add(new JLabel(emptyStatement));
-	}
+
+        String[] infoArray = info.split("<br/>");
+        radioList = new JRadioButton[infoArray.length];
+        if (infoArray[0] != emptyStatement) {
+            for (int i = 0; i < infoArray.length; i++) {
+                radioList[i] = new JRadioButton(infoArray[i]);
+                radioList[i].setBounds(20, 40 + (i * 40), 100, 40);
+                frame.add(radioList[i]);
+            }
+        } else
+            frame.add(new JLabel(emptyStatement));
+    }
 }
