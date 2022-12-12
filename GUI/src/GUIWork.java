@@ -4,6 +4,7 @@ import java.lang.reflect.Array;
 import java.sql.ClientInfoStatus;
 
 import javax.imageio.ImageIO;
+import javax.lang.model.util.AbstractAnnotationValueVisitor14;
 import javax.swing.*;
 import java.awt.Color;
 
@@ -27,6 +28,7 @@ import java.sql.*;
 
 public class GUIWork implements ActionListener {
     static Connection connection = null;
+    static String projectUrl = "C:\\Users\\chris\\eclipse-workspace\\GUIWork\\";
     static String url = "jdbc:mysql://localhost:3306/vc3?useTimezone=true&serverTimezone=UTC";
     static String username = "root";
     static String password = "hxW3&pol12$&KltfQRY#414VvuUW9";
@@ -36,6 +38,10 @@ public class GUIWork implements ActionListener {
     static Socket socket;
     static DataInputStream inputStream;
     static DataOutputStream outputStream;
+    static JRadioButton[] radioList;
+
+    static int amountOfJobs = 0;
+    static int amountOfCars = 0;
     static int previousID = 0;
     static int totalDuration = 0;
     static int integerData = 0;
@@ -67,6 +73,19 @@ public class GUIWork implements ActionListener {
     private static JButton userBack;
     private static JLabel message;
 
+    private static JLabel userJobNum;
+    private static JTextField userJobField;
+    private static JTextField jobField;
+    private static JTextField carField;
+
+    private static JLabel userJobLabel;
+    private static JLabel carLabel;
+
+    private static JButton decisionBack;
+    private static JButton decision;
+
+    private static JButton accept;
+    private static JButton deny;
     // Cloud controller
     private static JButton adminButton;
     private static JLabel adminUser;
@@ -82,6 +101,9 @@ public class GUIWork implements ActionListener {
     // Cloud controller commands
     private static JButton computeCompletionTime;
     private static JButton cloudBack;
+    private static JButton viewJobInfo;
+    private static JButton acceptJobPortal;
+    private static JButton denyJobPortal;
 
     // Client
     private static JLabel Fillout;
@@ -95,6 +117,7 @@ public class GUIWork implements ActionListener {
     private static JButton clientClear;
     private static JLabel clientID;
     private static JTextField clientIDText;
+
     // Owner
     private static JLabel welcomeMessage;
     private static JLabel ownerName;
@@ -113,114 +136,104 @@ public class GUIWork implements ActionListener {
     private static JButton submit;
     private static JButton ownerClear;
 
+    private static JFrame setBasicFrame(JFrame frame, int sizeX, int sizeY, boolean visability) {
+        frame.setSize(sizeX, sizeY);
+        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        frame.setVisible(visability);
+        return frame;
+    }
+
+    private static JFrame setBasicFrame2(JFrame frame, int sizeX, int sizeY, boolean visability) {
+        frame.setSize(sizeX, sizeY);
+        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        frame.setVisible(visability);
+        frame.setLocationRelativeTo(null);
+        frame.getContentPane().layout();
+        return frame;
+    }
+
+    private static JLabel setBackground(JLabel panel, JFrame frame, String imageFileName) {
+        ImageIcon img9 = new ImageIcon(projectUrl + imageFileName);// "Background6.png"
+        panel = new JLabel("", img9, JLabel.CENTER);
+        frame.add(panel);
+        return panel;
+    }
+
+    private static void setImage(JLabel panel, int imageScaleX, int imageScaleY, int UpBoundX, int UpBoundY,
+            int LowBoundX, int LowBoundY, String imageFileName) throws IOException {
+        BufferedImage img4 = ImageIO.read(new File(projectUrl + imageFileName));
+        Image image4 = img4.getScaledInstance(imageScaleX, imageScaleY, Image.SCALE_SMOOTH);
+        ImageIcon icon4 = new ImageIcon(image4);
+        JLabel pic4 = new JLabel();
+        pic4.setIcon(icon4);
+        pic4.setBounds(UpBoundX, UpBoundY, LowBoundX, LowBoundY);// Above the message
+        panel.add(pic4);
+    }
+
     public static void main(String[] args) throws IOException {
         // Server Socket
         socket = new Socket("localhost", 3000);
         inputStream = new DataInputStream(socket.getInputStream());
         outputStream = new DataOutputStream(socket.getOutputStream());
 
-        JFrame userFrame = new JFrame("Welcome Client !"); // client title section
-        userFrame.setSize(500, 500);
-        userFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        userFrame.setVisible(false);
+        JFrame userFrame = setBasicFrame(new JFrame("Welcome Client !"), 500, 500, false);// client title section
+        JFrame ownerFrame = setBasicFrame(new JFrame("Welcome Owner !"), 500, 500, false); // owner title section
+        JFrame frame = setBasicFrame(new JFrame("Vehicular GUI"), 600, 600, true); // Home GUI title
+        JFrame adminFrame = setBasicFrame(new JFrame("Cloud Controller"), 500, 500, false);
 
-        JFrame ownerFrame = new JFrame("Welcome Owner !"); // owner title section
-        ownerFrame.setSize(500, 500);
-        ownerFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        ownerFrame.setVisible(false);
+        JFrame jobAcceptFrame = setBasicFrame2(new JFrame("Job Request Accept Form"), 500, 500, false);// Admin Job
+                                                                                                       // Request Accept
+                                                                                                       // Frame
+        JFrame jobDenyFrame = setBasicFrame2(new JFrame("Job Request Deny Form"), 500, 500, false); // Admin Job Request
+                                                                                                    // Denial Frame
+        JFrame cloudFrame = setBasicFrame2(new JFrame("Vehicle Controller Functions"), 700, 625, false);// Cloud Frame
+                                                                                                        // with Table
+        JFrame decisionFrame = setBasicFrame2(new JFrame("Accept or Deny"),500,500,false);
+        JLabel panel = setBackground(new JLabel(), frame, "background5.png"); // Background
+        JLabel userPanel = setBackground(new JLabel(), userFrame, "background4.png"); // Background for client
+        JLabel adminPanel = setBackground(new JLabel(), adminFrame, "background.png"); // Background for Admin
+        JLabel ownerPanel = setBackground(new JLabel(), ownerFrame, "background6.png");// Background for Owner
+        JLabel cloudPanel = setBackground(new JLabel(), cloudFrame, "background6.png");// Background for Cloud
+        JLabel acceptPanel = setBackground(new JLabel(), jobAcceptFrame, "background6.png"); // Background for Accept
+        JLabel denyPanel = setBackground(new JLabel(), jobDenyFrame, "background6.png"); // Background for Deny
 
-        JFrame frame = new JFrame("Vehicular GUI"); // Home GUI title
-        frame.setSize(600, 600);
-        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        frame.setVisible(true);
 
-        JFrame adminFrame = new JFrame("Cloud Controller");
-        adminFrame.setSize(500, 500);
-        adminFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        adminFrame.setVisible(false);
+        setImage(panel, /* Image Scale */ 71, 71, /* Bounds */ 200, 145, 80, 100, "Client.png");// Main GUI images
+        // (150,210,80,100) under client button
 
-        // Cloud Frame with Table
-        JFrame cloudFrame = new JFrame("Vehicle Controller Functions");
-        cloudFrame.setSize(700, 625);
-        cloudFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        cloudFrame.setLocationRelativeTo(null);
-        cloudFrame.getContentPane().layout();
-        cloudFrame.setVisible(false);
+        setImage(panel, /* Image Scale */ 71, 71, /* Bounds */ 320, 145, 80, 100, "Owner.png");// GUI image 2
+        // above owner button
 
-        // Background
-        JLabel panel = new JLabel();
-        ImageIcon img5 = new ImageIcon("C:\\Users\\Jonat\\Downloads\\GUI-main (2)\\GUI-main\\GUI\\background5.png");
-        panel = new JLabel("", img5, JLabel.CENTER);
-        frame.add(panel);
+        setImage(panel, /* Image Scale */ 117, 117, /* Bounds */ 236, 255, 175, 125, "VCcontroller.png");// GUI image 3
+        // above VC button
 
-        // Background for client
-        JLabel userPanel = new JLabel();
-        ImageIcon img6 = new ImageIcon("C:\\Users\\Jonat\\Downloads\\GUI-main (2)\\GUI-main\\GUI\\background4.png");
-        userPanel = new JLabel("", img6, JLabel.CENTER);
-        userFrame.add(userPanel);
+        setImage(panel, /* Image Scale */ 100, 100, /* Bounds */ 245, 0, 150, 150, "cloud.png");// GUI image 4
+        // Above the message
 
-        // Background for Admin
-        JLabel adminPanel = new JLabel();
-        ImageIcon img7 = new ImageIcon("C:\\Users\\Jonat\\Downloads\\GUI-main (2)\\GUI-main\\GUI\\background.png");
-        adminPanel = new JLabel("", img7, JLabel.CENTER);
-        adminFrame.add(adminPanel);
+        decisionBack = new JButton(new AbstractAction("Back")
+        {
+            @Override
+            public void actionPerformed(ActionEvent e)
+            {
+                decisionFrame.setVisible(false);
+            }
+        });
 
-        // Background for Owner
-        JLabel ownerPanel = new JLabel();
-        ImageIcon img8 = new ImageIcon("C:\\Users\\Jonat\\Downloads\\GUI-main (2)\\GUI-main\\GUI\\background6.png");
-        ownerPanel = new JLabel("", img8, JLabel.CENTER);
-        ownerFrame.add(ownerPanel);
-
-        // Background for Cloud
-        JLabel cloudPanel = new JLabel();
-        ImageIcon img9 = new ImageIcon("C:\\Users\\Jonat\\Downloads\\GUI-main (2)\\GUI-main\\GUI\\Background6.png");
-        cloudPanel = new JLabel("", img9, JLabel.CENTER);
-        cloudFrame.add(cloudPanel);
-
-        // Main GUI images
-        BufferedImage img = ImageIO
-                .read(new File("C:\\Users\\Jonat\\Downloads\\GUI-main (2)\\GUI-main\\GUI\\Client.png"));
-        Image image = img.getScaledInstance(71, 71, Image.SCALE_SMOOTH);
-        ImageIcon icon = new ImageIcon(image);
-        JLabel pic = new JLabel();
-        pic.setIcon(icon);
-        pic.setBounds(200, 145, 80, 100);// (150,210,80,100) under client button
-        panel.add(pic);
-
-        // GUI image 2
-        BufferedImage img2 = ImageIO
-                .read(new File("C:\\Users\\Jonat\\Downloads\\GUI-main (2)\\GUI-main\\GUI\\Owner.png"));
-        Image image2 = img2.getScaledInstance(71, 71, Image.SCALE_SMOOTH);
-        ImageIcon icon2 = new ImageIcon(image2);
-        JLabel pic2 = new JLabel();
-        pic2.setIcon(icon2);
-        pic2.setBounds(320, 145, 80, 100);// above owner button
-        panel.add(pic2);
-
-        // GUI image 3
-        BufferedImage img3 = ImageIO
-                .read(new File("C:\\Users\\Jonat\\Downloads\\GUI-main (2)\\GUI-main\\GUI\\VCcontroller.png"));
-        Image image3 = img3.getScaledInstance(117, 117, Image.SCALE_SMOOTH);
-        ImageIcon icon3 = new ImageIcon(image3);
-        JLabel pic3 = new JLabel();
-        pic3.setIcon(icon3);
-        pic3.setBounds(236, 255, 175, 125);// above VC button
-        panel.add(pic3);
-
-        // GUI image 4
-        BufferedImage img4 = ImageIO
-                .read(new File("C:\\Users\\Jonat\\Downloads\\GUI-main (2)\\GUI-main\\GUI\\cloud.png"));
-        Image image4 = img4.getScaledInstance(100, 100, Image.SCALE_SMOOTH);
-        ImageIcon icon4 = new ImageIcon(image4);
-        JLabel pic4 = new JLabel();
-        pic4.setIcon(icon4);
-        pic4.setBounds(245, 0, 150, 150);// Above the message
-        panel.add(pic4);
+    
 
         // Table
         JTable timeTable = new JTable();
         Object[] column = { "Job ID", "Duration (hrs)" };
-        DefaultTableModel timeModel = new DefaultTableModel();
+        DefaultTableModel timeModel = new DefaultTableModel() {
+            @Override
+            public boolean isCellEditable(int row, int column) {
+                // False
+                return false;
+
+            }
+        }; // table non-editable
+
+        timeTable.setRowSelectionAllowed(false);
 
         timeModel.setColumnIdentifiers(column);
         timeTable.setModel(timeModel);
@@ -228,8 +241,6 @@ public class GUIWork implements ActionListener {
         timeTable.setBackground(Color.white);
         timeTable.setForeground(Color.black);
         timeTable.setGridColor(Color.gray);
-        timeTable.setSelectionBackground(Color.white);
-        timeTable.setSelectionForeground(Color.white);
         timeTable.setFont(new Font("Times New Roman", Font.PLAIN, 17)); // Change font
         timeTable.setRowHeight(30);
         timeTable.setAutoCreateRowSorter(true);
@@ -245,8 +256,8 @@ public class GUIWork implements ActionListener {
         // Row
         Object[] valueRow = new Object[2];
 
-        // Welcome message
 
+        // Welcome message
         ownerPanel.setLayout(null);
         welcomeMessage = new JLabel("Please fill out the following information");
         welcomeMessage.setBounds(10, 5, 300, 25);
@@ -264,6 +275,7 @@ public class GUIWork implements ActionListener {
         vehicleInfo = new JLabel("Vehicle Information:");
         vehicleInfo.setBounds(10, 75, 150, 25);
         ownerPanel.add(vehicleInfo);
+
         // Make
         carMake = new JLabel("Make of Car");
         carMake.setBounds(10, 110, 80, 25);
@@ -308,7 +320,7 @@ public class GUIWork implements ActionListener {
 
         // Cloud stuff acknowledge
         JLabel jobInfo = new JLabel("");
-        jobInfo.setBounds(50, 400, 400, 250);
+        jobInfo.setBounds(50, 290, 210, 250);
         cloudPanel.add(jobInfo);
 
         // Success message
@@ -329,7 +341,7 @@ public class GUIWork implements ActionListener {
             }
         });
 
-        userBack.setBounds(30, 200, 80, 25); // was set to 100 user back button
+        userBack.setBounds(30, 250, 80, 25); // was set to 100 user back button
         userPanel.add(userBack);
 
         ownerBack = new JButton(new AbstractAction("Back") {
@@ -366,13 +378,31 @@ public class GUIWork implements ActionListener {
                 }
 
                 cloudFrame.dispose();
+                jobInfo.setText("");
                 adminFrame.setVisible(true);
             }
 
         });
 
-        cloudBack.setBounds(245, 5, 80, 25); // cloud back button
+        cloudBack.setBounds(125, 5, 80, 25); // cloud back button
         cloudPanel.add(cloudBack);
+
+        jobField = new JTextField();
+        jobField.setBounds(450,450,80,25);
+        cloudPanel.add(jobField);
+
+        carField = new JTextField();
+        carField.setBounds(280,450,80,25);
+        cloudPanel.add(carField);
+ 
+        userJobLabel = new JLabel("Client Number");
+        userJobLabel.setBounds(450,400,120,25);
+        cloudPanel.add(userJobLabel);
+
+        carLabel = new JLabel("Car Number");
+        carLabel.setBounds(280,400,120,25);
+        cloudPanel.add(carLabel);
+
         // Welcome info
         Fillout = new JLabel("Please fill out the following information");
         Fillout.setBounds(10, 5, 300, 25);
@@ -396,6 +426,13 @@ public class GUIWork implements ActionListener {
         ClientName.setBounds(100, 40, 165, 25);
         userPanel.add(ClientName);
 
+        userJobNum = new JLabel("Job Number");
+        userJobNum.setBounds(10,180,80,25);
+        userPanel.add(userJobNum);
+
+        userJobField = new JTextField();
+        userJobField.setBounds(100,180,80,25);
+        userPanel.add(userJobField);
         // Adding Approximate Job Duration
         JobDuration = new JLabel("Job Duration");
         JobDuration.setBounds(10, 110, 100, 25);
@@ -417,7 +454,7 @@ public class GUIWork implements ActionListener {
         userPanel.add(Date);
 
         success = new JLabel("");
-        success.setBounds(200, 145, 350, 250);
+        success.setBounds(200, 200, 350, 250);
         userPanel.add(success);
 
         adminPanel.setLayout(null);
@@ -461,6 +498,9 @@ public class GUIWork implements ActionListener {
                         adminSuccess.setText("Successfully registered.");
                         adminFrame.dispose();
                         cloudFrame.setVisible(true);
+                        amountOfJobs = Integer.parseInt(callServer("AdminJobSize"));
+                        amountOfCars = Integer.parseInt(callServer("AdminCarSize"));
+                        jobInfo.setText("p"+amountOfJobs);
                     }
                 } else {
                     adminSuccess.setText("Username or password wrong.");
@@ -478,11 +518,13 @@ public class GUIWork implements ActionListener {
         userInfoButton = new JButton(new AbstractAction("Submit") {
             @Override
             public void actionPerformed(ActionEvent e) {
+            	
 
                 String time = Hours.getText();
                 String dueDate = Date.getText();
                 String name = ClientName.getText();
                 String clientIDValue = clientIDText.getText();
+                //String userNumber = userJobField.getText();
 
                 DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm:ss");
                 LocalDateTime now = LocalDateTime.now();
@@ -490,28 +532,12 @@ public class GUIWork implements ActionListener {
 
                 if (time.length() > 0 && dueDate.length() > 0 && name.length() > 0) {
 
-                    //
-                    try {
-                        outputStream
-                                .writeUTF("ClientRequest;" + name + ";" + clientIDValue + ";" + time + ";" + dueDate);
-                    } catch (IOException e1) {
-                        // TODO Auto-generated catch block
-                        e1.printStackTrace();
-                    }
-                    try {
-                        listenServer = inputStream.readUTF();
-                    } catch (IOException e1) {
-                        // TODO Auto-generated catch block
-                        e1.printStackTrace();
-                    }
-                    listenServer.toString();
-                    if (listenServer.equals("y")) {
+                    
+                 
                         try {
                             BufferedWriter test;
                             System.out.println("Start writing");
-                            test = new BufferedWriter(new FileWriter(
-                                    "C:\\Users\\Jonat\\Downloads\\GUI-main (2)\\GUI-main\\GUI\\src\\ClientInfo.txt",
-                                    true));
+                            test = new BufferedWriter(new FileWriter(projectUrl + "ClientInfo.txt", true));
                             test.append("\n");
                             test.append("Name: " + name + "\n");
                             test.append("Client id: " + clientIDValue + "\n");
@@ -536,6 +562,7 @@ public class GUIWork implements ActionListener {
                             System.out.println("Written successfully");
                             success.setText("Registered successful at " + dateTimer);
 
+                            listenServer = callServer("ClientRequest;" + name + ";" + idValueCount + ";" + time + ";" + dueDate);
                             sendToDatabase("INSERT INTO jobrequests"
                                     + "(clientID , name , jobDuration , jobDeadline , requestTime)" + "VALUES ("
                                     + idValueCount + ", '" + name + "', '" + time + "', '" + dueDate + "', '"
@@ -550,17 +577,16 @@ public class GUIWork implements ActionListener {
                         Date.setText("");
                         ClientName.setText("");
                         clientIDText.setText("");
+                        userJobField.setText("");
 
-                    } else if (listenServer.equals("n")) {
-                        success.setText("Request Denied");
-                    }
+                    
                 } else {
                     success.setText("Please fill out all fields.");
                 }
             }
         });
 
-        userInfoButton.setBounds(250, 200, 80, 25);
+        userInfoButton.setBounds(250, 250, 80, 25);
         userPanel.add(userInfoButton);
 
         ownerInfoButton = new JButton(new AbstractAction("Submit") {
@@ -586,19 +612,13 @@ public class GUIWork implements ActionListener {
                         && carLocation.length() > 0 && residencyTime.length() > 0) {
                     if (ownerName.length() > 0 && carMake.length() > 0 && carModel.length() > 0 && carYear.length() > 0
                             && carLocation.length() > 0 && residencyTime.length() > 0) {
-                        try {
-                            outputStream.writeUTF(ownerName + " " + s + " " + carMake + " " + carModel + " " + carYear
-                                    + " " + carLocation + " " + residencyTime + "" + DateTimer1);
-                            try {
-                                listenServer = inputStream.readUTF();
-                                listenServer.toString();
-                                if (listenServer.equals("y")) {
+                        
+                            
+                            
                                     try {
                                         BufferedWriter test;
                                         System.out.println("Buffered Writer start writing");
-                                        test = new BufferedWriter(new FileWriter(
-                                                "C:\\Users\\Jonat\\Downloads\\GUI-main (2)\\GUI-main\\GUI\\src\\ClientInfo.txt",
-                                                true));
+                                        test = new BufferedWriter(new FileWriter(projectUrl + "ClientInfo.txt", true));
                                         test.append("\n");
                                         test.append("Owner name: " + ownerName + "\n");
                                         test.append("Owner ID: " + s + "\n");
@@ -611,10 +631,8 @@ public class GUIWork implements ActionListener {
                                         test.close();
                                         System.out.println("Written successfully");
 
-                                        outputStream.writeUTF("OwnerCarRegister;" + ownerName + ";" + s + ";" + carMake
-                                                + ";" + carModel +
-                                                " " + carYear + " " + carLocation + ";" + residencyTime + ";"
-                                                + DateTimer1);
+                                        callServer("OwnerCarRegister;" + ownerName + ";" + s + ";" + carMake
+                                        + ";" + carModel +";" + carYear + " " + carLocation + ";" + residencyTime + ";"+ DateTimer1);
                                         name.setText("");
                                         make.setText("");
                                         model.setText("");
@@ -632,27 +650,11 @@ public class GUIWork implements ActionListener {
                                         ex.printStackTrace();
                                     }
 
-                                } else
+                          
 
-                                if (listenServer.equals("n")) {
-                                    ownerSuccess.setText("Request denied");
-                                    name.setText("");
-                                    make.setText("");
-                                    model.setText("");
-                                    year.setText("");
-                                    location.setText("");
-                                    Time.setText("");
-                                }
+                                
 
-                            } catch (IOException e2) {
-                                // TODO Auto-generated catch block
-                                e2.printStackTrace();
-                            }
-
-                        } catch (IOException e1) {
-                            // TODO Auto-generated catch block
-                            e1.printStackTrace();
-                        }
+                            
 
                     }
 
@@ -664,28 +666,73 @@ public class GUIWork implements ActionListener {
         });
         ownerInfoButton.setBounds(250, 300, 80, 25);
         ownerPanel.add(ownerInfoButton);
+        accept = new JButton(new AbstractAction("Accept") {
+            @Override
+            public void actionPerformed(ActionEvent e)
+            {
+
+            }
+            
+        });
+        
+        acceptJobPortal = new JButton(new AbstractAction("Accept a Job") {
+
+            @Override
+            public void actionPerformed(ActionEvent e) {
+            	
+            	String jobIndex = jobField.getText();
+                String carIndex = carField.getText();
+                
+                if(!isNumeric(jobIndex)||!isNumeric(carIndex)) {
+                	jobInfo.setText("Input not a valid index");
+                }else if((Integer.parseInt(jobIndex)>0)&&(Integer.parseInt(jobIndex)<=amountOfJobs)&&(Integer.parseInt(carIndex)>0)&&(Integer.parseInt(carIndex)<=amountOfCars)) {
+                	jobInfo.setText("<html>"+callServer("AdminApprove;" + jobIndex + ";" + carIndex)+"</html>");
+                }
+                else jobInfo.setText("Inputted index too high");
+
+            }
+
+        });
+        acceptJobPortal.setBounds(448, 355, 145, 25);
+        cloudPanel.add(acceptJobPortal);
+
+        denyJobPortal = new JButton(new AbstractAction("Deny a Job") {
+
+            @Override
+            public void actionPerformed(ActionEvent e) {
+            	String jobIndex = jobField.getText();
+            	if(!isNumeric(jobIndex)) {
+                	jobInfo.setText("Input not a valid index");
+                }else if((Integer.parseInt(jobIndex)>0)&&(Integer.parseInt(jobIndex)<=amountOfJobs)) {
+                	jobInfo.setText("<html>"+callServer("AdminDeny;" + jobIndex)+"</html>");
+                }
+                else jobInfo.setText("Inputted index too high");
+            }
+
+        });
+        denyJobPortal.setBounds(280, 355, 145, 25);
+        cloudPanel.add(denyJobPortal);
+
+        viewJobInfo = new JButton(new AbstractAction("View Job Info") {
+
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                String info = callServer("AdminHome");
+                
+                jobInfo.setText(info);
+                
+            }
+
+        });
+
+        viewJobInfo.setBounds(400, 5, 145, 25);
+        cloudPanel.add(viewJobInfo);
 
         computeCompletionTime = new JButton(new AbstractAction("Completion time") {
             @Override
             public void actionPerformed(ActionEvent e) {
 
-                try {
-                    outputStream.writeUTF("AdminHome");
-                } catch (IOException e1) {
-                    // TODO Auto-generated catch block
-                    e1.printStackTrace();
-                }
-                try {
-                    listenServer = inputStream.readUTF();
-                    jobInfo.setText(listenServer);
-                } catch (IOException e1) {
-                    // TODO Auto-generated catch block
-                    e1.printStackTrace();
-                }
-
-                // ---------------------------
-
-                File file = new File("C:\\Users\\Jonat\\Downloads\\GUI-main (2)\\GUI-main\\GUI\\src\\ClientInfo.txt");
+                File file = new File(projectUrl + "ClientInfo.txt");
                 String data;
                 integerData = 0;
                 jobDurationList.clear();
@@ -729,15 +776,18 @@ public class GUIWork implements ActionListener {
                         totalDuration += jobDurationList.get(j);
                         valueRow[1] = totalDuration;
                         timeModel.addRow(valueRow);
+
                     }
                     idScan.close();
                 } catch (FileNotFoundException y) {
                     y.printStackTrace();
                 }
+
             }
+
         });
 
-        computeCompletionTime.setBounds(348, 5, 145, 25); // 250,350,80,25 , 250,350,150,25
+        computeCompletionTime.setBounds(230, 5, 145, 25); // 250,350,80,25 , 250,350,150,25
         cloudPanel.add(computeCompletionTime);
 
         adminButton = new JButton(new AbstractAction("Cloud Controller") {
@@ -756,6 +806,8 @@ public class GUIWork implements ActionListener {
             @Override
             public void actionPerformed(ActionEvent e) {
                 frame.dispose();
+                String notifications = callServer("ClientNotifications");
+                success.setText(notifications);
                 userFrame.setVisible(true);
 
             }
@@ -807,5 +859,51 @@ public class GUIWork implements ActionListener {
             f.getMessage();
 
         }
+
     }
+
+    private static String callServer(String serverInput) {
+        String serverResponse = "Could not connect to Server";
+
+        try {
+            outputStream.writeUTF(serverInput);
+
+            try {
+                serverResponse = inputStream.readUTF();
+
+            } catch (IOException e1) {
+                // TODO Auto-generated catch block
+                e1.printStackTrace();
+            }
+
+        } catch (IOException e1) {
+            // TODO Auto-generated catch block
+            e1.printStackTrace();
+        }
+
+        return serverResponse;
+    }
+
+    private static void makeRadiolist(String info, String emptyStatement, JFrame frame) {
+
+        String[] infoArray = info.split("<br/>");
+        radioList = new JRadioButton[infoArray.length];
+        if (infoArray[0] != emptyStatement) {
+            for (int i = 0; i < infoArray.length; i++) {
+                radioList[i] = new JRadioButton(infoArray[i]);
+                radioList[i].setBounds(20, 40 + (i * 40), 100, 40);
+                frame.add(radioList[i]);
+            }
+        } else
+            frame.add(new JLabel(emptyStatement));
+    }
+    
+    public static boolean isNumeric(String str) { 
+    	  try {  
+    	    Double.parseDouble(str);  
+    	    return true;
+    	  } catch(NumberFormatException e){  
+    	    return false;  
+    	  }  
+    	}
 }
