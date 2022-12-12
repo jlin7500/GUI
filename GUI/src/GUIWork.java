@@ -778,7 +778,7 @@ public class GUIWork implements ActionListener {
                     while (idScan.hasNextLine()) {
                         idValue = idScan.nextLine();
                         if (idValue.indexOf("ID") > 0) {
-                            idValueCount = Integer.valueOf(idValue.substring(11, idValue.length()));
+                            idValueCount = Integer.valueOf(idValue.substring(8, idValue.length()));
                             idList.add(idValueCount);
 
                         }
