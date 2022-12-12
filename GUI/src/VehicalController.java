@@ -2,6 +2,8 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 
 public class VehicalController {
@@ -50,16 +52,32 @@ public class VehicalController {
 	}
 
 	public static String getListOfAvailableCars() {
+		int index = 0;
 		ArrayList<Car> carList = CURRENT_MODEL.CAR_LIST;
 		String output = "";
 		if (carList.size() == 0)
 			output = "No Cars Available<br/>";
 		else {
 			for (int i = 0; carList.size() > i; i++) {
-				output = output + "Car "+(i+1)+". "+carList.get(i).getCarAsString() + "<br/>";
+				
+				if(carList.get(i).status=="available") {
+					index = index + 1;
+					output = output + "Car "+index+". "+carList.get(i).getCarAsString() + "<br/>";
+				}
 			}
 		}
 		return output;
+	}
+	
+	public static int getAvailableCarIndex(int index) {
+		ArrayList<Car> carList = CURRENT_MODEL.CAR_LIST;
+		for(int i = 0; index > i; i++) {
+			Car currentCar = carList.get(i);
+			if(currentCar.status!="available") {
+				index = index+1;
+			}
+		}
+		return index;
 	}
 
 	public static String getAllCurrentJobs() {
@@ -97,26 +115,44 @@ public class VehicalController {
 		Job job = JOB_REQUESTS.remove(jobIndex);
 		//System.out.print("works");
 		job.changeStatus("denied");
-		archieveJob(job);
-		return job.getRequestAsString();
+		DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm:ss");
+        LocalDateTime now = LocalDateTime.now();
+		String dateTimer = (dtf.format(now));
+		sendToDatabase("DELETE FROM jobrequests WHERE "
+                + "clientID='"+job.assignedClientId+"' AND name='"+job.assignedClient+"' "
+                + "AND jobDuration='"+job.duration+"' AND jobDeadline='"+job.deadline+"'");
+		sendToDatabase("INSERT INTO deniedjobs"
+                + "(clientID , name , jobDuration , jobDeadline , denialTime)" + "VALUES ("
+                + job.assignedClientId + ", '" + job.assignedClient + "', '" + job.duration + "', '" + job.deadline + "', '"
+                + dateTimer + "')");
+		return job.getRequestAsString()+ "  at "+dateTimer;
 	}
 
 	public static String approveNewJob(int jobIndex, int carIndex) {
+		carIndex = getAvailableCarIndex(carIndex);
 		Job job = removeJobRequest(jobIndex);
 		Car car=CURRENT_MODEL.CAR_LIST.remove(carIndex);
 		job.changeStatus("ongoing");
 		car.changeStatus("in use");
 		job.assignCar(car);
+		sendToDatabase("DELETE FROM jobrequests WHERE "
+                + "clientID ='"+job.assignedClientId+"' AND name ='"+job.assignedClient+"' "
+                + "AND jobDuration ='"+job.duration+"' AND jobDeadline ='"+job.deadline+"'");
+		DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm:ss");
+        LocalDateTime now = LocalDateTime.now();
+		String dateTimer = (dtf.format(now));
+		sendToDatabase("UPDATE cars	SET status = 'in use' WHERE carID = "+car.carId+";");
+
+		sendToDatabase("INSERT INTO jobs"
+                + "(clientID , name , jobDuration , jobDeadline , carID, jobApprovalTime)" + "VALUES ("
+                + job.assignedClientId + ", '" + job.assignedClient + "', '" + job.duration + "', '" + job.deadline + "', '"
+                + car.carId + "', '" + dateTimer + "')");
 		// job.addNewDeadline(newDeadline);
 		// job.addNewDuration(newDuration);
 		CURRENT_MODEL.CURRENT_JOBS.add(job);
 		//CURRENT_MODEL.CAR_LIST.add(car);
-		return job.getRequestAsString();
+		return job.getRequestAsString()+ "  at "+dateTimer;
 		
-	}
-
-	private static void archieveJob(Job job) {
-		CURRENT_MODEL.ARCHIEVE_JOBS.add(job);
 	}
 	
 	public static int getRequestListSize() {
@@ -124,7 +160,16 @@ public class VehicalController {
 	}
 	
 	public static int getCarListSize() {
-		return CAR_LIST.size();
+		
+		int size = CAR_LIST.size();
+		ArrayList<Car> carList = CURRENT_MODEL.CAR_LIST;
+		for(int i = 0; size > i; i++) {
+			Car currentCar = carList.get(i);
+			if(currentCar.status!="available") {
+				size = size-1;
+			}
+		}
+		return size;
 	}
 	
 	public static int getJobListSize() {

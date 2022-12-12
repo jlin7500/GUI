@@ -10,7 +10,6 @@ public class Job {
 	
 	public Job(){
 		status = "Requested";
-		
 	}
 	
 	public void addNewClient (String newClient, int newClientId) {

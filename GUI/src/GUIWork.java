@@ -86,6 +86,7 @@ public class GUIWork implements ActionListener {
 
     private static JButton accept;
     private static JButton deny;
+    
     // Cloud controller
     private static JButton adminButton;
     private static JLabel adminUser;
@@ -428,7 +429,7 @@ public class GUIWork implements ActionListener {
 
         userJobNum = new JLabel("Job Number");
         userJobNum.setBounds(10,180,80,25);
-        userPanel.add(userJobNum);
+        //userPanel.add(userJobNum);
 
         userJobField = new JTextField();
         userJobField.setBounds(100,180,80,25);
@@ -500,7 +501,7 @@ public class GUIWork implements ActionListener {
                         cloudFrame.setVisible(true);
                         amountOfJobs = Integer.parseInt(callServer("AdminJobSize"));
                         amountOfCars = Integer.parseInt(callServer("AdminCarSize"));
-                        jobInfo.setText("p"+amountOfJobs);
+                        //jobInfo.setText("p"+amountOfJobs);
                     }
                 } else {
                     adminSuccess.setText("Username or password wrong.");
@@ -629,10 +630,11 @@ public class GUIWork implements ActionListener {
                                         test.append("Residency Time: " + residencyTime + "\n");
                                         test.append("Registered Successfully: " + DateTimer1 + "\n");
                                         test.close();
+                                        
                                         System.out.println("Written successfully");
-
+                                        int carId = (int) (Math.random() * range);
                                         callServer("OwnerCarRegister;" + ownerName + ";" + s + ";" + carMake
-                                        + ";" + carModel +";" + carYear + " " + carLocation + ";" + residencyTime + ";"+ DateTimer1);
+                                        + ";" + carModel +";" + carYear + ";" + carLocation + ";"+carId+";" + residencyTime + ";"+ DateTimer1);
                                         name.setText("");
                                         make.setText("");
                                         model.setText("");
@@ -640,11 +642,11 @@ public class GUIWork implements ActionListener {
                                         location.setText("");
                                         Time.setText("");
                                         ownerSuccess.setText("Registered successful at " + DateTimer1);
-
+                                        
                                         sendToDatabase("INSERT INTO cars"
-                                                + "(carMake , carModel , carYear , carLocation , status ,  ownerName , ownerID)"
+                                                + "(carMake , carModel , carYear , carLocation , carId,  status ,  ownerName , ownerID)"
                                                 + "VALUES ('" + carMake + "', '" + carModel + "', '" + carYear + "', '"
-                                                + carLocation + "', 'available',  '" + ownerName + "', '" + s + "')");
+                                                + carLocation + "', '" + carId + "', 'available',  '" + ownerName + "', '" + s + "')");
 
                                     } catch (IOException ex) {
                                         ex.printStackTrace();
@@ -689,6 +691,11 @@ public class GUIWork implements ActionListener {
                 	jobInfo.setText("<html>"+callServer("AdminApprove;" + jobIndex + ";" + carIndex)+"</html>");
                 }
                 else jobInfo.setText("Inputted index too high");
+                
+                jobField.setText("");
+                carField.setText("");
+                amountOfJobs = Integer.parseInt(callServer("AdminJobSize"));
+                amountOfCars = Integer.parseInt(callServer("AdminCarSize"));
 
             }
 
@@ -707,6 +714,12 @@ public class GUIWork implements ActionListener {
                 	jobInfo.setText("<html>"+callServer("AdminDeny;" + jobIndex)+"</html>");
                 }
                 else jobInfo.setText("Inputted index too high");
+            	
+
+                jobField.setText("");
+                carField.setText("");
+                amountOfJobs = Integer.parseInt(callServer("AdminJobSize"));
+                amountOfCars = Integer.parseInt(callServer("AdminCarSize"));
             }
 
         });

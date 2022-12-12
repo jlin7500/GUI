@@ -51,7 +51,7 @@ public class ServerTest {
                 
                 case "OwnerCarRegister":
                 	
-                  Car newCar = new Car(inputData[1], inputData[2], inputData[3], inputData[4]);
+                  Car newCar = new Car(inputData[3], inputData[4], inputData[5], inputData[6], Integer.parseInt(inputData[7]));
                   vc.addNewCar(newCar);
                   
                   break;
@@ -98,7 +98,7 @@ public class ServerTest {
                 	clientNotification = clientNotification + 
                 	"Your job request: "+
                 			vc.approveNewJob(Integer.parseInt(inputData[1])-1,Integer.parseInt(inputData[2])-1)
-                	+ "has been approved";
+                	+ "was approved";
                 	output = "Job has been Approved<br/>";
                     break;
                     
@@ -107,14 +107,14 @@ public class ServerTest {
                 	"Your job request: "+
                 		vc.denyNewJob(Integer.parseInt(inputData[1])-1)
                 	+"has been denied <br/>";
-                	output = "Job has been Denied";
+                	output = "had been Denied";
                     break;
                 default:
                   // code block
               }
                 
-                
-                //getMessageSavedCount();
+                numOfMessagesSaved = numOfMessagesSaved  + 1;
+                getMessageSavedCount();
                 outputStream.writeUTF(output);
             }
         } catch (Exception e) {
@@ -125,33 +125,6 @@ public class ServerTest {
     }
     
     public static void getMessageSavedCount() {
-    	System.out.println("Number of Messages Saved: "+numOfMessagesSaved);
+    	System.out.println("Number of Messages Processed: "+numOfMessagesSaved);
     }
-    
-    /*
-    public static void Stuff() {
-    	System.out.println("Would you like to save this message? y/n?");
-        input = new Scanner(System.in);
-        response = input.nextLine();
-        while(!response.equals("y") || !response.equals("n"))
-        {
-        	if (response.toLowerCase().equals("y")) {
-                System.out.println("Information accepted");
-                serverOutput = "messageAccepted";
-                numOfMessagesSaved++;
-                break;
-            }
-            else if(response.toLowerCase().equals("n"))
-            {
-                System.out.println("Information rejected");
-                serverOutput = "messageReject";
-                break;
-            }
-            else {
-                System.out.println("That is not a valid response. Please try again.");
-                response = input.nextLine();
-            }
-        }
-    }
-    */
 }

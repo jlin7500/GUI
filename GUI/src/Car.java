@@ -1,19 +1,23 @@
 
 public class Car {
 	
+	public String owner;
+	public String ownerId;
 	public String carMake;
 	public String carModel;
 	public String carYear;
 	public String carLocation;
 	public String status;
+	public int carId;
 
-	public Car(String newCarMake, String newCarModel, String newCarYear, String newCarLocation ){
+	public Car(String newCarMake, String newCarModel, String newCarYear, String newCarLocation, int newCarId ){
 		
 		carMake = newCarMake;
 		carModel = newCarModel;
 		carYear = newCarYear;
 		carLocation = newCarLocation;
-		
+		carId = newCarId;
+		status = "available";
 	}
 	
 	public String checkStatus() {
