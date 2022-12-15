@@ -4,7 +4,7 @@ import java.lang.reflect.Array;
 import java.sql.ClientInfoStatus;
 
 import javax.imageio.ImageIO;
-import javax.lang.model.util.AbstractAnnotationValueVisitor14;
+//import javax.lang.model.util.AbstractAnnotationValueVisitor14;
 import javax.swing.*;
 import java.awt.Color;
 
@@ -86,7 +86,7 @@ public class GUIWork implements ActionListener {
 
     private static JButton accept;
     private static JButton deny;
-    
+
     // Cloud controller
     private static JButton adminButton;
     private static JLabel adminUser;
@@ -189,7 +189,7 @@ public class GUIWork implements ActionListener {
                                                                                                     // Denial Frame
         JFrame cloudFrame = setBasicFrame2(new JFrame("Vehicle Controller Functions"), 700, 625, false);// Cloud Frame
                                                                                                         // with Table
-        JFrame decisionFrame = setBasicFrame2(new JFrame("Accept or Deny"),500,500,false);
+        JFrame decisionFrame = setBasicFrame2(new JFrame("Accept or Deny"), 500, 500, false);
         JLabel panel = setBackground(new JLabel(), frame, "background5.png"); // Background
         JLabel userPanel = setBackground(new JLabel(), userFrame, "background4.png"); // Background for client
         JLabel adminPanel = setBackground(new JLabel(), adminFrame, "background.png"); // Background for Admin
@@ -197,7 +197,6 @@ public class GUIWork implements ActionListener {
         JLabel cloudPanel = setBackground(new JLabel(), cloudFrame, "background6.png");// Background for Cloud
         JLabel acceptPanel = setBackground(new JLabel(), jobAcceptFrame, "background6.png"); // Background for Accept
         JLabel denyPanel = setBackground(new JLabel(), jobDenyFrame, "background6.png"); // Background for Deny
-
 
         setImage(panel, /* Image Scale */ 71, 71, /* Bounds */ 200, 145, 80, 100, "Client.png");// Main GUI images
         // (150,210,80,100) under client button
@@ -211,16 +210,12 @@ public class GUIWork implements ActionListener {
         setImage(panel, /* Image Scale */ 100, 100, /* Bounds */ 245, 0, 150, 150, "cloud.png");// GUI image 4
         // Above the message
 
-        decisionBack = new JButton(new AbstractAction("Back")
-        {
+        decisionBack = new JButton(new AbstractAction("Back") {
             @Override
-            public void actionPerformed(ActionEvent e)
-            {
+            public void actionPerformed(ActionEvent e) {
                 decisionFrame.setVisible(false);
             }
         });
-
-    
 
         // Table
         JTable timeTable = new JTable();
@@ -256,7 +251,6 @@ public class GUIWork implements ActionListener {
 
         // Row
         Object[] valueRow = new Object[2];
-
 
         // Welcome message
         ownerPanel.setLayout(null);
@@ -321,7 +315,7 @@ public class GUIWork implements ActionListener {
 
         // Cloud stuff acknowledge
         JLabel jobInfo = new JLabel("");
-        jobInfo.setBounds(50, 290, 210, 250);
+        jobInfo.setBounds(20, 290, 210, 250);
         cloudPanel.add(jobInfo);
 
         // Success message
@@ -389,19 +383,19 @@ public class GUIWork implements ActionListener {
         cloudPanel.add(cloudBack);
 
         jobField = new JTextField();
-        jobField.setBounds(450,450,80,25);
+        jobField.setBounds(450, 450, 80, 25);
         cloudPanel.add(jobField);
 
         carField = new JTextField();
-        carField.setBounds(280,450,80,25);
+        carField.setBounds(280, 450, 80, 25);
         cloudPanel.add(carField);
- 
-        userJobLabel = new JLabel("Client Number");
-        userJobLabel.setBounds(450,400,120,25);
+
+        userJobLabel = new JLabel("Request Number");
+        userJobLabel.setBounds(450, 400, 120, 25);
         cloudPanel.add(userJobLabel);
 
         carLabel = new JLabel("Car Number");
-        carLabel.setBounds(280,400,120,25);
+        carLabel.setBounds(280, 400, 120, 25);
         cloudPanel.add(carLabel);
 
         // Welcome info
@@ -428,12 +422,12 @@ public class GUIWork implements ActionListener {
         userPanel.add(ClientName);
 
         userJobNum = new JLabel("Job Number");
-        userJobNum.setBounds(10,180,80,25);
-        //userPanel.add(userJobNum);
+        userJobNum.setBounds(10, 180, 80, 25);
+        // userPanel.add(userJobNum);
 
-        userJobField = new JTextField();
-        userJobField.setBounds(100,180,80,25);
-        userPanel.add(userJobField);
+        // userJobField = new JTextField();
+        // userJobField.setBounds(100,180,80,25);
+        // userPanel.add(userJobField);
         // Adding Approximate Job Duration
         JobDuration = new JLabel("Job Duration");
         JobDuration.setBounds(10, 110, 100, 25);
@@ -455,7 +449,7 @@ public class GUIWork implements ActionListener {
         userPanel.add(Date);
 
         success = new JLabel("");
-        success.setBounds(200, 200, 350, 250);
+        success.setBounds(100, 170, 350, 250);
         userPanel.add(success);
 
         adminPanel.setLayout(null);
@@ -501,7 +495,7 @@ public class GUIWork implements ActionListener {
                         cloudFrame.setVisible(true);
                         amountOfJobs = Integer.parseInt(callServer("AdminJobSize"));
                         amountOfCars = Integer.parseInt(callServer("AdminCarSize"));
-                        //jobInfo.setText("p"+amountOfJobs);
+                        // jobInfo.setText("p"+amountOfJobs);
                     }
                 } else {
                     adminSuccess.setText("Username or password wrong.");
@@ -519,13 +513,12 @@ public class GUIWork implements ActionListener {
         userInfoButton = new JButton(new AbstractAction("Submit") {
             @Override
             public void actionPerformed(ActionEvent e) {
-            	
 
                 String time = Hours.getText();
                 String dueDate = Date.getText();
                 String name = ClientName.getText();
                 String clientIDValue = clientIDText.getText();
-                //String userNumber = userJobField.getText();
+                // String userNumber = userJobField.getText();
 
                 DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm:ss");
                 LocalDateTime now = LocalDateTime.now();
@@ -533,54 +526,52 @@ public class GUIWork implements ActionListener {
 
                 if (time.length() > 0 && dueDate.length() > 0 && name.length() > 0) {
 
-                    
-                 
-                        try {
-                            BufferedWriter test;
-                            System.out.println("Start writing");
-                            test = new BufferedWriter(new FileWriter(projectUrl + "ClientInfo.txt", true));
-                            test.append("\n");
-                            test.append("Name: " + name + "\n");
-                            test.append("Client id: " + clientIDValue + "\n");
+                    try {
+                        BufferedWriter test;
+                        System.out.println("Start writing");
+                        test = new BufferedWriter(new FileWriter(projectUrl + "ClientInfo.txt", true));
+                        test.append("\n");
+                        test.append("Name: " + name + "\n");
+                        test.append("Client id: " + clientIDValue + "\n");
+
+                        idValueCount = (int) (Math.random() * range) + min;
+                        idList.add(idValueCount);
+                        idValueCount = (int) (Math.random() * range) + min;
+                        if (idList.contains(idValueCount)) {
+                            previousID = idValueCount;
 
                             idValueCount = (int) (Math.random() * range) + min;
-                            idList.add(idValueCount);
-                            idValueCount = (int) (Math.random() * range) + min;
-                            if (idList.contains(idValueCount)) {
-                                previousID = idValueCount;
-
-                                idValueCount = (int) (Math.random() * range) + min;
-                                if (previousID != idValueCount) {
-                                    test.append("Job ID: " + idValueCount + "\n");
-                                }
-                            } else {
+                            if (previousID != idValueCount) {
                                 test.append("Job ID: " + idValueCount + "\n");
                             }
-                            test.append("Job Duration: " + time + "\n");
-                            test.append("Job Deadline: " + dueDate + "\n");
-                            test.append("Registration time: " + dateTimer + "\n");
-                            test.close();
-                            System.out.println("Written successfully");
-                            success.setText("Registered successful at " + dateTimer);
-
-                            listenServer = callServer("ClientRequest;" + name + ";" + idValueCount + ";" + time + ";" + dueDate);
-                            sendToDatabase("INSERT INTO jobrequests"
-                                    + "(clientID , name , jobDuration , jobDeadline , requestTime)" + "VALUES ("
-                                    + idValueCount + ", '" + name + "', '" + time + "', '" + dueDate + "', '"
-                                    + dateTimer + "')");
+                        } else {
+                            test.append("Job ID: " + idValueCount + "\n");
                         }
+                        test.append("Job Duration: " + time + "\n");
+                        test.append("Job Deadline: " + dueDate + "\n");
+                        test.append("Registration time: " + dateTimer + "\n");
+                        test.close();
+                        System.out.println("Written successfully");
+                        success.setText("Registered successful at " + dateTimer);
 
-                        catch (IOException ex) {
-                            ex.printStackTrace();
-                        }
+                        listenServer = callServer(
+                                "ClientRequest;" + name + ";" + idValueCount + ";" + time + ";" + dueDate);
+                        sendToDatabase("INSERT INTO jobrequests"
+                                + "(clientID , name , jobDuration , jobDeadline , requestTime)" + "VALUES ("
+                                + idValueCount + ", '" + name + "', '" + time + "', '" + dueDate + "', '"
+                                + dateTimer + "')");
+                    }
 
-                        Hours.setText("");
-                        Date.setText("");
-                        ClientName.setText("");
-                        clientIDText.setText("");
-                        userJobField.setText("");
+                    catch (IOException ex) {
+                        ex.printStackTrace();
+                    }
 
-                    
+                    Hours.setText("");
+                    Date.setText("");
+                    ClientName.setText("");
+                    clientIDText.setText("");
+                    // userJobField.setText("");
+
                 } else {
                     success.setText("Please fill out all fields.");
                 }
@@ -613,50 +604,44 @@ public class GUIWork implements ActionListener {
                         && carLocation.length() > 0 && residencyTime.length() > 0) {
                     if (ownerName.length() > 0 && carMake.length() > 0 && carModel.length() > 0 && carYear.length() > 0
                             && carLocation.length() > 0 && residencyTime.length() > 0) {
-                        
-                            
-                            
-                                    try {
-                                        BufferedWriter test;
-                                        System.out.println("Buffered Writer start writing");
-                                        test = new BufferedWriter(new FileWriter(projectUrl + "ClientInfo.txt", true));
-                                        test.append("\n");
-                                        test.append("Owner name: " + ownerName + "\n");
-                                        test.append("Owner ID: " + s + "\n");
-                                        test.append("Car Make: " + carMake + "\n");
-                                        test.append("Car Model: " + carModel + "\n");
-                                        test.append("Car Year: " + carYear + "\n");
-                                        test.append("Manufactured Location: " + carLocation + "\n");
-                                        test.append("Residency Time: " + residencyTime + "\n");
-                                        test.append("Registered Successfully: " + DateTimer1 + "\n");
-                                        test.close();
-                                        
-                                        System.out.println("Written successfully");
-                                        int carId = (int) (Math.random() * range);
-                                        callServer("OwnerCarRegister;" + ownerName + ";" + s + ";" + carMake
-                                        + ";" + carModel +";" + carYear + ";" + carLocation + ";"+carId+";" + residencyTime + ";"+ DateTimer1);
-                                        name.setText("");
-                                        make.setText("");
-                                        model.setText("");
-                                        year.setText("");
-                                        location.setText("");
-                                        Time.setText("");
-                                        ownerSuccess.setText("Registered successful at " + DateTimer1);
-                                        
-                                        sendToDatabase("INSERT INTO cars"
-                                                + "(carMake , carModel , carYear , carLocation , carId,  status ,  ownerName , ownerID)"
-                                                + "VALUES ('" + carMake + "', '" + carModel + "', '" + carYear + "', '"
-                                                + carLocation + "', '" + carId + "', 'available',  '" + ownerName + "', '" + s + "')");
 
-                                    } catch (IOException ex) {
-                                        ex.printStackTrace();
-                                    }
+                        try {
+                            BufferedWriter test;
+                            System.out.println("Buffered Writer start writing");
+                            test = new BufferedWriter(new FileWriter(projectUrl + "OwnerInfo.txt", true));
+                            test.append("\n");
+                            test.append("Owner name: " + ownerName + "\n");
+                            test.append("Owner ID: " + s + "\n");
+                            test.append("Car Make: " + carMake + "\n");
+                            test.append("Car Model: " + carModel + "\n");
+                            test.append("Car Year: " + carYear + "\n");
+                            test.append("Manufactured Location: " + carLocation + "\n");
+                            test.append("Residency Time: " + residencyTime + "\n");
+                            test.append("Registered Successfully: " + DateTimer1 + "\n");
+                            test.close();
 
-                          
+                            System.out.println("Written successfully");
+                            int carId = (int) (Math.random() * range);
+                            callServer("OwnerCarRegister;" + ownerName + ";" + s + ";" + carMake
+                                    + ";" + carModel + ";" + carYear + ";" + carLocation + ";" + carId + ";"
+                                    + residencyTime + ";" + DateTimer1);
+                            name.setText("");
+                            make.setText("");
+                            model.setText("");
+                            year.setText("");
+                            location.setText("");
+                            Time.setText("");
+                            ownerSuccess.setText("Registered successful at " + DateTimer1);
 
-                                
+                            sendToDatabase("INSERT INTO cars"
+                                    + "(carMake , carModel , carYear , carLocation , carId,  status ,  ownerName , ownerID)"
+                                    + "VALUES ('" + carMake + "', '" + carModel + "', '" + carYear + "', '"
+                                    + carLocation + "', '" + carId + "', 'available',  '" + ownerName + "', '" + s
+                                    + "')");
 
-                            
+                        } catch (IOException ex) {
+                            ex.printStackTrace();
+                        }
 
                     }
 
@@ -670,28 +655,28 @@ public class GUIWork implements ActionListener {
         ownerPanel.add(ownerInfoButton);
         accept = new JButton(new AbstractAction("Accept") {
             @Override
-            public void actionPerformed(ActionEvent e)
-            {
+            public void actionPerformed(ActionEvent e) {
 
             }
-            
+
         });
-        
+
         acceptJobPortal = new JButton(new AbstractAction("Accept a Job") {
 
             @Override
             public void actionPerformed(ActionEvent e) {
-            	
-            	String jobIndex = jobField.getText();
+
+                String jobIndex = jobField.getText();
                 String carIndex = carField.getText();
-                
-                if(!isNumeric(jobIndex)||!isNumeric(carIndex)) {
-                	jobInfo.setText("Input not a valid index");
-                }else if((Integer.parseInt(jobIndex)>0)&&(Integer.parseInt(jobIndex)<=amountOfJobs)&&(Integer.parseInt(carIndex)>0)&&(Integer.parseInt(carIndex)<=amountOfCars)) {
-                	jobInfo.setText("<html>"+callServer("AdminApprove;" + jobIndex + ";" + carIndex)+"</html>");
-                }
-                else jobInfo.setText("Inputted index too high");
-                
+
+                if (!isNumeric(jobIndex) || !isNumeric(carIndex)) {
+                    jobInfo.setText("To Deny a Job requires a valid index in the Job Request and Car Index Field");
+                } else if ((Integer.parseInt(jobIndex) > 0) && (Integer.parseInt(jobIndex) <= amountOfJobs)
+                        && (Integer.parseInt(carIndex) > 0) && (Integer.parseInt(carIndex) <= amountOfCars)) {
+                    jobInfo.setText("<html>" + callServer("AdminApprove;" + jobIndex + ";" + carIndex) + "</html>");
+                } else
+                    jobInfo.setText("Inputted index too high");
+
                 jobField.setText("");
                 carField.setText("");
                 amountOfJobs = Integer.parseInt(callServer("AdminJobSize"));
@@ -707,14 +692,13 @@ public class GUIWork implements ActionListener {
 
             @Override
             public void actionPerformed(ActionEvent e) {
-            	String jobIndex = jobField.getText();
-            	if(!isNumeric(jobIndex)) {
-                	jobInfo.setText("Input not a valid index");
-                }else if((Integer.parseInt(jobIndex)>0)&&(Integer.parseInt(jobIndex)<=amountOfJobs)) {
-                	jobInfo.setText("<html>"+callServer("AdminDeny;" + jobIndex)+"</html>");
-                }
-                else jobInfo.setText("Inputted index too high");
-            	
+                String jobIndex = jobField.getText();
+                if (!isNumeric(jobIndex)) {
+                    jobInfo.setText("To Deny a Job requires a valid index in the Job Request Index Field");
+                } else if ((Integer.parseInt(jobIndex) > 0) && (Integer.parseInt(jobIndex) <= amountOfJobs)) {
+                    jobInfo.setText("<html>" + callServer("AdminDeny;" + jobIndex) + "</html>");
+                } else
+                    jobInfo.setText("Inputted index too high");
 
                 jobField.setText("");
                 carField.setText("");
@@ -731,9 +715,9 @@ public class GUIWork implements ActionListener {
             @Override
             public void actionPerformed(ActionEvent e) {
                 String info = callServer("AdminHome");
-                
+
                 jobInfo.setText(info);
-                
+
             }
 
         });
@@ -910,13 +894,13 @@ public class GUIWork implements ActionListener {
         } else
             frame.add(new JLabel(emptyStatement));
     }
-    
-    public static boolean isNumeric(String str) { 
-    	  try {  
-    	    Double.parseDouble(str);  
-    	    return true;
-    	  } catch(NumberFormatException e){  
-    	    return false;  
-    	  }  
-    	}
+
+    public static boolean isNumeric(String str) {
+        try {
+            Double.parseDouble(str);
+            return true;
+        } catch (NumberFormatException e) {
+            return false;
+        }
+    }
 }
